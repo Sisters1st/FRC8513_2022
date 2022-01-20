@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
+
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -46,6 +48,7 @@ public class Robot extends TimedRobot {
     m_leftMotor2 = new CANSparkMax(leftMotorID2, MotorType.kBrushed);
     m_rightMotor1 = new CANSparkMax(rightMotorID1, MotorType.kBrushed);
     m_rightMotor2 = new CANSparkMax(rightMotorID2, MotorType.kBrushed);
+    CameraServer.startAutomaticCapture();
 
     m_leftMotor2.follow(m_leftMotor1);
     m_leftMotor1.setInverted(true);

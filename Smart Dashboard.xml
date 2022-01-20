@@ -1,5 +1,14 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="42" y="170"/>
+		<width>324</width>
+		<height>196</height>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
+	<widget field="Auto Selector" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="92"/>
+	</widget>
 	<widget field="test" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="181" y="118"/>
 		<height>20</height>
