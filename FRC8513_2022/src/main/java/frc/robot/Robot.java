@@ -29,10 +29,14 @@ public class Robot extends TimedRobot {
   private static final int leftMotorID2 = 3; 
   private static final int rightMotorID1 = 4; 
   private static final int rightMotorID2 = 5;
+  private static final int mechFinalID1 = 6;
+  private static final int mechFinalID2 = 7;
   private CANSparkMax m_leftMotor1;
   private CANSparkMax m_leftMotor2;
   private CANSparkMax m_rightMotor1;
   private CANSparkMax m_rightMotor2;
+  private CANSparkMax m_mechID1;
+  private CANSparkMax m_mechID2;
   private final Timer m_timer = new Timer();
 
   /**
@@ -48,6 +52,8 @@ public class Robot extends TimedRobot {
     m_leftMotor2 = new CANSparkMax(leftMotorID2, MotorType.kBrushed);
     m_rightMotor1 = new CANSparkMax(rightMotorID1, MotorType.kBrushed);
     m_rightMotor2 = new CANSparkMax(rightMotorID2, MotorType.kBrushed);
+    m_mechID1 = new CANSparkMax(mechFinalID1, MotorType.kBrushed);
+    m_mechID2 = new CANSparkMax(mechFinalID2, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
 
     m_leftMotor2.follow(m_leftMotor1);
@@ -93,6 +99,30 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_myRobot.tankDrive(joystick.getY(), joystick.getRawAxis(3));
+    if(joystick.getRawButtonPressed(6))
+    {
+      m_mechID1.set(.5);
+    }
+    if(joystick.getRawButtonPressed(8))
+    {
+      m_mechID1.set(-.5);
+    }
+    if(joystick.getRawButtonPressed(7))
+    {
+      m_mechID2.set(.5);
+    }
+    if(joystick.getRawButtonPressed(5))
+    {
+      m_mechID2.set(-.5);
+    }
+    if(!joystick.getRawButton(6)&&!joystick.getRawButton(8))
+    {
+      m_mechID1.set(0);
+    }
+    if(!joystick.getRawButton(5)&&!joystick.getRawButton(7))
+    {
+      m_mechID2.set(0);
+    }
   }
 
   /** This function is called once each time the robot enters test mode. */
