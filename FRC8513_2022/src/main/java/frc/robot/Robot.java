@@ -5,9 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -55,6 +57,12 @@ public class Robot extends TimedRobot {
     joystick = new Joystick(0);
   }
 
+  @Override
+  public void robotPeriodic(){
+    SmartDashboard.putNumber("test", 1);
+    double Auto = Preferences.getDouble("Auto", 1.0);
+    SmartDashboard.putNumber("autoRead", Auto);
+  }
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
   public void autonomousInit() {
@@ -65,11 +73,18 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    // Drive for 2 seconds
+    if (m_timer.get() < 2.0) {
+      m_myRobot.tankDrive(1, 1); // drive forwards half speed
+    } else {
+      m_myRobot.stopMotor(); // stop robot
+    }
   }
 
   /** This function is called once each time the robot enters teleoperated mode. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+  }
 
   /** This function is called periodically during teleoperated mode. */
   @Override

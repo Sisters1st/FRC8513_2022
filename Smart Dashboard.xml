@@ -1,0 +1,23 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="test" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="181" y="118"/>
+		<height>20</height>
+	</widget>
+	<widget field="autoRead" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="18" y="118"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="0" y="0"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="59" y="-1"/>
+		<height>92</height>
+	</static-widget>
+</dashboard>
+<live-window>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="0" y="0"/>
+	</widget>
+</live-window>
+</xml>
