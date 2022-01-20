@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
   private CANSparkMax m_mechID1;
   private CANSparkMax m_mechID2;
   private final Timer m_timer = new Timer();
+  private double Auto = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -69,7 +70,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic(){
     SmartDashboard.putNumber("test", 1);
-    double Auto = Preferences.getDouble("Auto", 1.0);
+    Auto = Preferences.getDouble("Auto", 1.0);
     SmartDashboard.putNumber("autoRead", Auto);
   }
   /** This function is run once each time the robot enters autonomous mode. */
@@ -83,10 +84,26 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     // Drive for 2 seconds
-    if (m_timer.get() < 2.0) {
-      m_myRobot.tankDrive(1, 1); // drive forwards half speed
-    } else {
-      m_myRobot.stopMotor(); // stop robot
+    switch((int)Auto) {
+      case 0:
+        // do nothing auto
+        break;
+      case 1:
+        if (m_timer.get() < 2.0) {
+          m_myRobot.tankDrive(1, 1); // drive forwards half speed
+        } else {
+          m_myRobot.stopMotor(); // stop robot
+        }
+        break;
+      case 2:
+        if (m_timer.get() < 2.0) {
+          m_myRobot.tankDrive(-1, -1); // drive backawrds half speed
+        } else {
+          m_myRobot.stopMotor(); // stop robot
+        }
+        break;
+      default:
+        // do nothing
     }
   }
 
