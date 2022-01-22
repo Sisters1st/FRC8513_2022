@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.AnalogInput;
-
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -40,7 +41,8 @@ public class Robot extends TimedRobot {
   private CANSparkMax m_mechID2;
   private final Timer m_timer = new Timer();
   private double Auto = 0;
-private final AnalogInput ultrasonic = new AnalogInput(0);
+  private final AnalogInput ultrasonic = new AnalogInput(0);
+  AHRS ahrs;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,7 +60,12 @@ private final AnalogInput ultrasonic = new AnalogInput(0);
     m_mechID1 = new CANSparkMax(mechFinalID1, MotorType.kBrushed);
     m_mechID2 = new CANSparkMax(mechFinalID2, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
-
+    try {
+      /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
+      /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+      /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+      ahrs = new AHRS(SPI.Port.kMXP); 
+  } catch (RuntimeException ex ) {}
 
     m_leftMotor2.follow(m_leftMotor1);
 
@@ -76,6 +83,7 @@ private final AnalogInput ultrasonic = new AnalogInput(0);
     SmartDashboard.putNumber("autoRead", Auto);
     double rawValue = ultrasonic.getValue();
     SmartDashboard.putNumber("ultrasonic", rawValue);
+    SmartDashboard.putNumber("angle", ahrs.getAngle());
   }
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
