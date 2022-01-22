@@ -43,6 +43,8 @@ public class Robot extends TimedRobot {
   private double Auto = 0;
   private final AnalogInput ultrasonic = new AnalogInput(0);
   AHRS ahrs;
+  private double autoStartingAngle;
+  private double currentAngle;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -83,13 +85,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("autoRead", Auto);
     double rawValue = ultrasonic.getValue();
     SmartDashboard.putNumber("ultrasonic", rawValue);
-    SmartDashboard.putNumber("angle", ahrs.getAngle());
+    currentAngle = ahrs.getAngle();
+    SmartDashboard.putNumber("angle", currentAngle);
   }
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
   public void autonomousInit() {
     m_timer.reset();
     m_timer.start();
+    autoStartingAngle = currentAngle;
   }
 
   /** This function is called periodically during autonomous. */
@@ -120,6 +124,15 @@ public class Robot extends TimedRobot {
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
+      case 3:
+        if (autoStartingAngle + 90 > currentAngle){
+          m_myRobot.tankDrive(-1, 1); 
+        }
+        else {
+          m_myRobot.stopMotor(); // stop robot
+
+        }
+        break;
       default:
         // do nothing
     }
