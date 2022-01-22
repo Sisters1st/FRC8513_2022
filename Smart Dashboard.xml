@@ -37,8 +37,7 @@
 </dashboard>
 <live-window>
 	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<location x="31" y="29"/>
+		<location x="0" y="0"/>
 	</widget>
 </live-window>
-	<hidden field="Auto Selector"/>
 </xml>
