@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 
 import com.revrobotics.CANSparkMax;
@@ -39,6 +40,7 @@ public class Robot extends TimedRobot {
   private CANSparkMax m_mechID2;
   private final Timer m_timer = new Timer();
   private double Auto = 0;
+private final AnalogInput ultrasonic = new AnalogInput(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -57,6 +59,7 @@ public class Robot extends TimedRobot {
     m_mechID2 = new CANSparkMax(mechFinalID2, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
 
+
     m_leftMotor2.follow(m_leftMotor1);
 
     m_rightMotor2.follow(m_rightMotor1);
@@ -71,6 +74,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("test", 1);
     Auto = Preferences.getDouble("Auto", 1.0);
     SmartDashboard.putNumber("autoRead", Auto);
+    double rawValue = ultrasonic.getValue();
+    SmartDashboard.putNumber("ultrasonic", rawValue);
   }
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
