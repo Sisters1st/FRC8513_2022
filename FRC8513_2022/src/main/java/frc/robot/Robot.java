@@ -114,6 +114,12 @@ public class Robot extends TimedRobot {
           m_myRobot.stopMotor(); // stop robot
         }
         break;
+      case 8:
+        if (currentAngle < 360 + autoStartAngle){
+          m_myRobot.tankDrive(1,-1); // spins robot 
+        } else {
+          m_myRobot.stopMotor(); // stop robot
+        }
       default:
         // do nothing
     }
