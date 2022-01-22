@@ -127,6 +127,16 @@ public class Robot extends TimedRobot {
 
         }
         break;
+      case 4:
+       if (autoStartingAngle - 90 < currentAngle){
+        m_myRobot.tankDrive(1, -1); 
+
+       }
+       else {
+        m_myRobot.stopMotor(); // stop robot
+
+       }
+       break; 
       default:
         // do nothing
     }
