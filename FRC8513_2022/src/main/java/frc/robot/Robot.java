@@ -106,7 +106,8 @@ public class Robot extends TimedRobot {
         break;
       case 1:
         if (m_timer.get() < 2.0) {
-          m_myRobot.tankDrive(1, 1); // drive forwards half speed
+          //m_myRobot.tankDrive(1, 1); // drive forwards half speed
+
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
@@ -128,25 +129,22 @@ public class Robot extends TimedRobot {
 
         }
         break;
-<<<<<<< HEAD
       case 4:
        if (autoStartingAngle - 90 < currentAngle){
         m_myRobot.tankDrive(1, -1); 
-
-       }
+      
+        }
        else {
         m_myRobot.stopMotor(); // stop robot
 
        }
        break; 
-=======
       case 8:
         if (currentAngle < 360 + autoStartingAngle){
           m_myRobot.tankDrive(1,-1); // spins robot 
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
->>>>>>> 16b29c20b00de8a32547493b92f4bbc4b85c8415
       default:
         // do nothing
     }
