@@ -34,10 +34,28 @@
 		<location x="59" y="-1"/>
 		<height>92</height>
 	</static-widget>
+	<widget field="ultrasonic" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="24" y="6"/>
+	</widget>
+	<widget field="angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="3" y="12"/>
+	</widget>
 </dashboard>
 <live-window>
 	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<location x="0" y="0"/>
+		<widget field="AnalogInput[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
+			<location x="6" y="16"/>
+			<height>20</height>
+			<width>250</width>
+		</widget>
+		<widget field="navX-Sensor[4]" type="Gyro" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="6" y="36"/>
+			<height>150</height>
+			<width>250</width>
+		</widget>
+		<location x="3" y="12"/>
+		<width>262</width>
+		<height>192</height>
 	</widget>
 </live-window>
 </xml>
