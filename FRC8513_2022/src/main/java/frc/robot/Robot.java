@@ -129,6 +129,9 @@ public class Robot extends TimedRobot {
 
         }
         break;
+<<<<<<< HEAD
+      case 7:
+=======
       case 4:
        if (autoStartingAngle - 90 < currentAngle){
         m_myRobot.tankDrive(1, -1); 
@@ -159,6 +162,7 @@ public class Robot extends TimedRobot {
        }
        break; 
        case 7:
+>>>>>>> 2b7e9664366935f7676ca99741e141a89573c42d
         if (autoStartingAngle + 360 > currentAngle){
           m_myRobot.tankDrive(-1, 1); 
         }
@@ -203,7 +207,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    m_myRobot.tankDrive(joystick.getY(), joystick.getRawAxis(3));
+    m_myRobot.tankDrive(-joystick.getRawAxis(3),joystick.getY());
     if(joystick.getRawButtonPressed(6))
     {
       m_mechID1.set(.5);
