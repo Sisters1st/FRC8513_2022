@@ -128,6 +128,15 @@ public class Robot extends TimedRobot {
 
         }
         break;
+      case 7:
+        if (autoStartingAngle + 360 > currentAngle){
+          m_myRobot.tankDrive(-1, 1); 
+        }
+        else {
+          m_myRobot.stopMotor(); // stop robot
+
+        }
+        break;
       case 8:
         if (currentAngle < 360 + autoStartingAngle){
           m_myRobot.tankDrive(1,-1); // spins robot 
@@ -147,7 +156,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    m_myRobot.tankDrive(joystick.getY(), joystick.getRawAxis(3));
+    m_myRobot.tankDrive(-joystick.getRawAxis(3),joystick.getY());
     if(joystick.getRawButtonPressed(6))
     {
       m_mechID1.set(.5);
