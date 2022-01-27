@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -27,10 +28,10 @@ public class Robot extends TimedRobot {
   private DifferentialDrive m_myRobot;
   private Joystick joystick;
 
-  private static final int leftMotorID1 = 2; 
-  private static final int leftMotorID2 = 3; 
-  private static final int rightMotorID1 = 4; 
-  private static final int rightMotorID2 = 5;
+  private static final int leftMotorID1 = 4; 
+  private static final int leftMotorID2 = 5; 
+  private static final int rightMotorID1 = 2; 
+  private static final int rightMotorID2 = 3;
   private static final int mechFinalID1 = 6;
   private static final int mechFinalID2 = 7;
   private CANSparkMax m_leftMotor1;
@@ -45,7 +46,8 @@ public class Robot extends TimedRobot {
   AHRS ahrs;
   private double autoStartingAngle;
   private double currentAngle;
-
+private MotorControllerGroup m_left;
+private MotorControllerGroup m_right;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -69,13 +71,16 @@ public class Robot extends TimedRobot {
       ahrs = new AHRS(SPI.Port.kMXP); 
   } catch (RuntimeException ex ) {}
 
-    m_leftMotor2.follow(m_leftMotor1);
+ 
 
-    m_rightMotor2.follow(m_rightMotor1);
-    m_rightMotor2.setInverted(true);
+ // m_leftMotor2.follow(m_leftMotor1);
 
-    m_myRobot = new DifferentialDrive(m_leftMotor1, m_rightMotor1);
+   // m_rightMotor2.follow(m_rightMotor1);
+m_left=new MotorControllerGroup(m_leftMotor1, m_leftMotor2);
+m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
+    m_myRobot = new DifferentialDrive(m_left, m_right);
     joystick = new Joystick(0);
+    m_right.setInverted(true);
   }
 
   @Override
@@ -94,6 +99,7 @@ public class Robot extends TimedRobot {
     m_timer.reset();
     m_timer.start();
     autoStartingAngle = currentAngle;
+    SmartDashboard.putNumber("autoStartingAngle", autoStartingAngle);
   }
 
   /** This function is called periodically during autonomous. */
@@ -106,7 +112,7 @@ public class Robot extends TimedRobot {
         break;
       case 1:
         if (m_timer.get() < 2.0) {
-          //m_myRobot.tankDrive(1, 1); // drive forwards half speed
+          m_myRobot.tankDrive(1, 1); // drive forwards half speed
 
         } else {
           m_myRobot.stopMotor(); // stop robot
@@ -122,20 +128,16 @@ public class Robot extends TimedRobot {
 
       case 3:
         if (autoStartingAngle + 90 > currentAngle){
-          m_myRobot.tankDrive(-1, 1); 
+          m_myRobot.tankDrive(.5, -.5); //turn counterclockwise 90 degrees
         }
         else {
           m_myRobot.stopMotor(); // stop robot
 
         }
         break;
-<<<<<<< HEAD
-      case 7:
-=======
       case 4:
        if (autoStartingAngle - 90 < currentAngle){
-        m_myRobot.tankDrive(1, -1); 
-      
+        m_myRobot.tankDrive(-.5, .5); //turn clockwise 90 degrees
         }
        else {
         m_myRobot.stopMotor(); // stop robot
@@ -162,7 +164,6 @@ public class Robot extends TimedRobot {
        }
        break; 
        case 7:
->>>>>>> 2b7e9664366935f7676ca99741e141a89573c42d
         if (autoStartingAngle + 360 > currentAngle){
           m_myRobot.tankDrive(-1, 1); 
         }
@@ -207,7 +208,23 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    m_myRobot.tankDrive(-joystick.getRawAxis(3),joystick.getY());
+    double leftPow = 0;
+    double leftJoy = joystick.getY();
+    if(leftJoy>0){
+      leftPow = -1 * leftJoy * leftJoy;
+    }
+    else{
+      leftPow = leftJoy * leftJoy;
+    }
+    double rightPow = 0;
+    double rightJoy = joystick.getRawAxis(3);
+    if(rightJoy>0){
+      rightPow = -1 * rightJoy * rightJoy;
+    }
+    else{
+      rightPow = rightJoy * rightJoy;
+    }
+    m_myRobot.tankDrive(leftPow, rightPow);
     if(joystick.getRawButtonPressed(6))
     {
       m_mechID1.set(.5);
