@@ -20,7 +20,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxRelativeEncoder.Type;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -57,6 +59,8 @@ private MotorControllerGroup m_left;
 private MotorControllerGroup m_right;
 int integral, previous_error, setpoint = 0;
 Gyro gyro;
+RelativeEncoder leftEncoder;
+RelativeEncoder rightEncoder;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -73,6 +77,8 @@ Gyro gyro;
     m_mechID1 = new CANSparkMax(mechFinalID1, MotorType.kBrushed);
     m_mechID2 = new CANSparkMax(mechFinalID2, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
+    leftEncoder =  m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
+    rightEncoder =  m_rightMotor1.getEncoder(Type.kQuadrature, 8192);
     try {
       /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
       /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
@@ -100,6 +106,8 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
     SmartDashboard.putNumber("ultrasonic", rawValue);
     currentAngle = ahrs.getAngle();
     SmartDashboard.putNumber("angle", currentAngle);
+    SmartDashboard.putNumber("leftEncoder", leftEncoder.getPosition());
+    SmartDashboard.putNumber("rightEncoder", rightEncoder.getPosition());
   }
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
