@@ -43,8 +43,9 @@ public class Robot extends TimedRobot {
   private CANSparkMax m_leftMotor2;
   private CANSparkMax m_rightMotor1;
   private CANSparkMax m_rightMotor2;
-  private CANSparkMax m_mechID1;
-  private CANSparkMax m_mechID2;
+  private CANSparkMax m_mechID1; //6
+  private CANSparkMax m_mechID2; //7
+  double rawUltrasonicValue;
   private final Timer m_timer = new Timer();
   private double Auto = 0;
   private final AnalogInput ultrasonic = new AnalogInput(0);
@@ -102,8 +103,8 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
   public void robotPeriodic(){
     Auto = Preferences.getDouble("Auto", 1.0);
     SmartDashboard.putNumber("autoRead", Auto);
-    double rawValue = ultrasonic.getValue();
-    SmartDashboard.putNumber("ultrasonic", rawValue);
+    rawUltrasonicValue = ultrasonic.getValue();
+    SmartDashboard.putNumber("ultrasonic", rawUltrasonicValue);
     currentAngle = ahrs.getAngle();
     SmartDashboard.putNumber("angle", currentAngle);
     SmartDashboard.putNumber("leftEncoder", leftEncoder.getPosition());
@@ -163,7 +164,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
        break; 
        case 5:
         if (autoStartingAngle + 45 > currentAngle){
-          m_myRobot.tankDrive(-1, 1); 
+          m_myRobot.tankDrive(.5, -.5); 
         }
         else {
           m_myRobot.stopMotor(); // stop robot
@@ -172,7 +173,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
         break;
         case 6:
        if (autoStartingAngle - 45 < currentAngle){
-        m_myRobot.tankDrive(1, -1); 
+        m_myRobot.tankDrive(-.5, .5); 
       
         }
        else {
@@ -182,7 +183,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
        break; 
        case 7:
         if (autoStartingAngle + 360 > currentAngle){
-          m_myRobot.tankDrive(-1, 1); 
+          m_myRobot.tankDrive(.5, -.5); 
         }
         else {
           m_myRobot.stopMotor(); // stop robot
@@ -190,15 +191,15 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
         }
         break;
       case 8:
-        if (currentAngle - 360 < autoStartingAngle){
-          m_myRobot.tankDrive(1,-1); // spins robot 
+        if (autoStartingAngle - 360 < currentAngle){
+          m_myRobot.tankDrive(-.5,.5); // spins robot 
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
         break;
         case 9:
         if (autoStartingAngle + 180 > currentAngle){
-          m_myRobot.tankDrive(-1, 1); 
+          m_myRobot.tankDrive(.5, -.5); 
         }
         else {
           m_myRobot.stopMotor(); // stop robot
@@ -206,8 +207,8 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
         }
         break;
         case 10:
-        if (currentAngle - 180 < autoStartingAngle){
-          m_myRobot.tankDrive(1,-1); // spins robot 
+        if (autoStartingAngle - 180 < currentAngle){
+          m_myRobot.tankDrive(-.5,.5); // spins robot 
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
@@ -272,6 +273,22 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
     if(!joystick.getRawButton(5)&&!joystick.getRawButton(7))
     {
       m_mechID2.set(0);
+    }
+    switch((int)Auto){
+    case 1: //motor off
+      m_mechID1.set(0);
+      if(joystick.getRawButton(1) || joystick.getRawButton(2))
+      {
+          Auto = 2;  
+      }
+      break;
+    case 2: //motor on
+    m_mechID1.set(.5);
+    if(rawUltrasonicValue>100) //make 100 into a variable
+    {
+        Auto = 1;  
+    }
+    break;
     }
   }
 
