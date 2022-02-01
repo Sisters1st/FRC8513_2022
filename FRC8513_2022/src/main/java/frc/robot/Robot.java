@@ -9,9 +9,12 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -46,8 +49,14 @@ public class Robot extends TimedRobot {
   AHRS ahrs;
   private double autoStartingAngle;
   private double currentAngle;
+  double kP_turn=.012;
+  double kI_turn=0.004;
+  double kD_turn = 0.0009;
+  PIDController turnPID = new PIDController(kP_turn,  kI_turn, kD_turn );
 private MotorControllerGroup m_left;
 private MotorControllerGroup m_right;
+int integral, previous_error, setpoint = 0;
+Gyro gyro;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -85,7 +94,6 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
 
   @Override
   public void robotPeriodic(){
-    SmartDashboard.putNumber("test", 1);
     Auto = Preferences.getDouble("Auto", 1.0);
     SmartDashboard.putNumber("autoRead", Auto);
     double rawValue = ultrasonic.getValue();
@@ -99,6 +107,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
     m_timer.reset();
     m_timer.start();
     autoStartingAngle = currentAngle;
+    turnPID.reset();
     SmartDashboard.putNumber("autoStartingAngle", autoStartingAngle);
   }
 
@@ -195,6 +204,13 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
           m_myRobot.stopMotor(); // stop robot
         }
         break;
+        case 11:  
+        double controllerOutput = turnPID.calculate(currentAngle, 90+autoStartingAngle);
+        double motorPower= MathUtil.clamp(controllerOutput, -1, 1);
+        m_myRobot.tankDrive(motorPower, -motorPower);
+        SmartDashboard.putNumber("error", (autoStartingAngle + 90)-currentAngle);
+        SmartDashboard.putNumber("controllerOutput", controllerOutput);
+        break;
       default:
         // do nothing
     }
@@ -258,4 +274,5 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
 }
