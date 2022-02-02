@@ -9,15 +9,20 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxRelativeEncoder.Type;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -38,17 +43,33 @@ public class Robot extends TimedRobot {
   private CANSparkMax m_leftMotor2;
   private CANSparkMax m_rightMotor1;
   private CANSparkMax m_rightMotor2;
-  private CANSparkMax m_mechID1; //6
-  private CANSparkMax m_mechID2; //7
-  double rawUltrasonicValue;
+  private CANSparkMax m_mechID1;
+  private CANSparkMax m_mechID2;
   private final Timer m_timer = new Timer();
   private double Auto = 0;
   private final AnalogInput ultrasonic = new AnalogInput(0);
   AHRS ahrs;
   private double autoStartingAngle;
   private double currentAngle;
+  double kP_turn=.012;
+  double kI_turn=0.004;
+  double kD_turn = 0.0009;
+  PIDController turnPID = new PIDController(kP_turn,  kI_turn, kD_turn );
+  double kP_straight=1;
+  double kI_straight=0.1;
+  double kD_straight = 0;
+  PIDController straightPID = new PIDController(kP_straight,  kI_straight, kD_straight );
+  double kP_distance=1;
+  double kI_distance=0;
+  double kD_distance =.001;
+  PIDController distancePID = new PIDController(kP_distance,  kI_distance, kD_distance);
 private MotorControllerGroup m_left;
 private MotorControllerGroup m_right;
+int integral, previous_error, setpoint = 0;
+RelativeEncoder leftEncoder;
+RelativeEncoder rightEncoder;
+double leftEncoderPosition = 0;
+double rightEncoderPosition = 0; 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -65,6 +86,9 @@ private MotorControllerGroup m_right;
     m_mechID1 = new CANSparkMax(mechFinalID1, MotorType.kBrushed);
     m_mechID2 = new CANSparkMax(mechFinalID2, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
+    leftEncoder =  m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
+    rightEncoder =  m_rightMotor1.getEncoder(Type.kQuadrature, 8192);
+    rightEncoder.setInverted(true);
     try {
       /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
       /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
@@ -86,13 +110,16 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
 
   @Override
   public void robotPeriodic(){
-    SmartDashboard.putNumber("test", 1);
     Auto = Preferences.getDouble("Auto", 1.0);
     SmartDashboard.putNumber("autoRead", Auto);
-    rawUltrasonicValue = ultrasonic.getValue();
-    SmartDashboard.putNumber("ultrasonic", rawUltrasonicValue);
+    double rawValue = ultrasonic.getValue();
+    SmartDashboard.putNumber("ultrasonic", rawValue);
     currentAngle = ahrs.getAngle();
     SmartDashboard.putNumber("angle", currentAngle);
+    leftEncoderPosition = leftEncoder.getPosition();
+    rightEncoderPosition =  rightEncoder.getPosition();
+    SmartDashboard.putNumber("leftEncoder", leftEncoderPosition);
+    SmartDashboard.putNumber("rightEncoder", rightEncoderPosition);
   }
   /** This function is run once each time the robot enters autonomous mode. */
   @Override
@@ -100,7 +127,12 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
     m_timer.reset();
     m_timer.start();
     autoStartingAngle = currentAngle;
+    turnPID.reset();
     SmartDashboard.putNumber("autoStartingAngle", autoStartingAngle);
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
+    straightPID.reset();
+    distancePID.reset();
   }
 
   /** This function is called periodically during autonomous. */
@@ -147,7 +179,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
        break; 
        case 5:
         if (autoStartingAngle + 45 > currentAngle){
-          m_myRobot.tankDrive(.5, -.5); 
+          m_myRobot.tankDrive(-1, 1); 
         }
         else {
           m_myRobot.stopMotor(); // stop robot
@@ -156,7 +188,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
         break;
         case 6:
        if (autoStartingAngle - 45 < currentAngle){
-        m_myRobot.tankDrive(-.5, .5); 
+        m_myRobot.tankDrive(1, -1); 
       
         }
        else {
@@ -166,7 +198,7 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
        break; 
        case 7:
         if (autoStartingAngle + 360 > currentAngle){
-          m_myRobot.tankDrive(.5, -.5); 
+          m_myRobot.tankDrive(-1, 1); 
         }
         else {
           m_myRobot.stopMotor(); // stop robot
@@ -174,15 +206,15 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
         }
         break;
       case 8:
-        if (autoStartingAngle - 360 < currentAngle){
-          m_myRobot.tankDrive(-.5,.5); // spins robot 
+        if (currentAngle - 360 < autoStartingAngle){
+          m_myRobot.tankDrive(1,-1); // spins robot 
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
         break;
         case 9:
         if (autoStartingAngle + 180 > currentAngle){
-          m_myRobot.tankDrive(.5, -.5); 
+          m_myRobot.tankDrive(-1, 1); 
         }
         else {
           m_myRobot.stopMotor(); // stop robot
@@ -190,11 +222,50 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
         }
         break;
         case 10:
-        if (autoStartingAngle - 180 < currentAngle){
-          m_myRobot.tankDrive(-.5,.5); // spins robot 
+        if (currentAngle - 180 < autoStartingAngle){
+          m_myRobot.tankDrive(1,-1); // spins robot 
         } else {
           m_myRobot.stopMotor(); // stop robot
         }
+        break;
+        case 11:  
+        double controllerOutput = turnPID.calculate(currentAngle, 90+autoStartingAngle);
+        double motorPower= MathUtil.clamp(controllerOutput, -1, 1);
+        m_myRobot.tankDrive(motorPower, -motorPower);
+        SmartDashboard.putNumber("error", (autoStartingAngle + 90)-currentAngle);
+        SmartDashboard.putNumber("controllerOutput", controllerOutput);
+        break;
+        case 12: //drive straight
+        controllerOutput = straightPID.calculate(leftEncoderPosition-rightEncoderPosition, 0);
+        double motorDelta= MathUtil.clamp(controllerOutput, -.2, .2);
+        double goalMotorSpeed = 0.5;
+        m_myRobot.tankDrive(goalMotorSpeed+motorDelta,goalMotorSpeed-motorDelta);
+        SmartDashboard.putNumber("dirveStraightMotor Delta", motorDelta);
+        break;
+        case 13: //drive straight backward
+        controllerOutput = straightPID.calculate(leftEncoderPosition-rightEncoderPosition, 0);
+        motorDelta= MathUtil.clamp(controllerOutput, -.2, .2);
+        goalMotorSpeed = -0.5;
+        m_myRobot.tankDrive(goalMotorSpeed+motorDelta,goalMotorSpeed-motorDelta);
+        SmartDashboard.putNumber("dirveStraightMotor Delta", motorDelta);
+        break;
+        case 14: //drive straight to a distance
+        double distanceControllerOutput = distancePID.calculate((leftEncoderPosition+rightEncoderPosition)/2, 38.216);
+        goalMotorSpeed= MathUtil.clamp(distanceControllerOutput, -.6, .6);
+        controllerOutput = straightPID.calculate(leftEncoderPosition-rightEncoderPosition, 0);
+        motorDelta= MathUtil.clamp(controllerOutput, -.2, .2);
+        m_myRobot.tankDrive(goalMotorSpeed+motorDelta,goalMotorSpeed-motorDelta);
+        SmartDashboard.putNumber("dirveDistanceMotor Delta", motorDelta);
+        SmartDashboard.putNumber("goal motor speed", goalMotorSpeed);
+        break;
+        case 15: //drive straight to a distance
+        distanceControllerOutput = distancePID.calculate((leftEncoderPosition+rightEncoderPosition)/2, -38.216);
+        goalMotorSpeed= MathUtil.clamp(distanceControllerOutput, -.6, .6);
+        controllerOutput = straightPID.calculate(leftEncoderPosition-rightEncoderPosition, 0);
+        motorDelta= MathUtil.clamp(controllerOutput, -.2, .2);
+        m_myRobot.tankDrive(goalMotorSpeed+motorDelta,goalMotorSpeed-motorDelta);
+        SmartDashboard.putNumber("dirveDistanceMotor Delta", motorDelta);
+        SmartDashboard.putNumber("goal motor speed", goalMotorSpeed);
         break;
       default:
         // do nothing
@@ -250,22 +321,6 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
     {
       m_mechID2.set(0);
     }
-    switch((int)Auto){
-    case 1: //motor off
-      m_mechID1.set(0);
-      if(joystick.getRawButton(1) || joystick.getRawButton(2))
-      {
-          Auto = 2;  
-      }
-      break;
-    case 2: //motor on
-    m_mechID1.set(.5);
-    if(rawUltrasonicValue>100) //make 100 into a variable
-    {
-        Auto = 1;  
-    }
-    break;
-    }
   }
 
   /** This function is called once each time the robot enters test mode. */
@@ -275,4 +330,5 @@ m_right=new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
 }

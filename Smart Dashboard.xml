@@ -1,14 +1,29 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="goal motor speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="392"/>
+	</widget>
+	<widget field="dirveDistanceMotor Delta" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="125"/>
+	</widget>
+	<widget field="dirveStraightMotor Delta" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="33"/>
+	</widget>
+	<widget field="controllerOutput" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="155" y="371"/>
+	</widget>
+	<widget field="error" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="17" y="365"/>
+	</widget>
 	<widget field="autoStartingAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="126" y="96"/>
+		<location x="155" y="70"/>
 		<height>20</height>
 	</widget>
 	<widget field="ultrasonic" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="139"/>
+		<location x="351" y="158"/>
 	</widget>
 	<widget field="angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="92"/>
+		<location x="14" y="70"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
 		<location x="386" y="53"/>
@@ -25,41 +40,30 @@
 		<property name="Text" value="Auto1=drive forward"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
-		<location x="42" y="170"/>
+		<location x="40" y="155"/>
 		<width>324</width>
 		<height>196</height>
 		<property name="Camera Choice" value=""/>
 	</static-widget>
-	<widget field="test" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="181" y="118"/>
-		<height>20</height>
-	</widget>
 	<widget field="autoRead" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="18" y="118"/>
+		<location x="9" y="104"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
 		<location x="0" y="0"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
-		<location x="59" y="-1"/>
-		<height>92</height>
+		<location x="400" y="221"/>
+		<height>87</height>
 	</static-widget>
+	<widget field="rightEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="350" y="131"/>
+		<height>20</height>
+	</widget>
+	<widget field="leftEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="352" y="100"/>
+	</widget>
 </dashboard>
 <live-window>
-	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<widget field="AnalogInput[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
-			<location x="6" y="16"/>
-			<height>20</height>
-			<width>250</width>
-		</widget>
-		<widget field="navX-Sensor[4]" type="Gyro" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
-			<location x="6" y="36"/>
-			<height>150</height>
-			<width>250</width>
-		</widget>
-		<location x="0" y="0"/>
-		<width>262</width>
-		<height>192</height>
-	</widget>
 </live-window>
+	<hidden field="test"/>
 </xml>
