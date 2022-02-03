@@ -122,11 +122,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
   //Smart Dashboard variables
+  //pdp, motor power, motor current, angle indicator, clean up dashboard
     Auto = Preferences.getDouble("Auto", 1.0);
     double rawValue = ultrasonic.getValue();
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
+    autoGoalAngle = Preferences.getDouble("GoalAngle", 1.0);
   //putting variables on the Smart Dashboard
     SmartDashboard.putNumber("autoRead", Auto); // input an Auto case
     SmartDashboard.putNumber("ultrasonic", rawValue); // put the value of the ultrasonic sensor on the Smart Dashboard
