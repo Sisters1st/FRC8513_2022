@@ -58,6 +58,14 @@ public class Robot extends TimedRobot {
   public double leftEncoderPosition = 0;
   public double rightEncoderPosition = 0;
   public double autoGoalAngle = 0;
+  public double autoAction;
+  public double autoAngleTHold = 1;
+  public double tHoldCounter;
+  public double tHoldCounterTHold = 20;
+  public boolean autoActionIsDone = false;
+  public double autoGoalDistance;
+  public double autoDistanceTHold;
+  public double autoGoalSpeed;
   //turn PID variables
   double kP_turn = .012;
   double kI_turn = 0.004;
@@ -74,10 +82,11 @@ public class Robot extends TimedRobot {
   double kD_distance = .001;
   public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
 //sensors
-  AHRS ahrs;
+  public AHRS ahrs;
   public final AnalogInput ultrasonic = new AnalogInput(0);
   public RelativeEncoder leftEncoder;
   public RelativeEncoder rightEncoder;
+  public double currentPosition;
 //instantiating the classes
   public frc.Auto autoController = new frc.Auto(this);
   public frc.Teleop teleopController = new frc.Teleop(this);
@@ -129,6 +138,7 @@ public class Robot extends TimedRobot {
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
     autoGoalAngle = Preferences.getDouble("GoalAngle", 1.0);
+    currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2; 
   //putting variables on the Smart Dashboard
     SmartDashboard.putNumber("autoRead", Auto); // input an Auto case
     SmartDashboard.putNumber("ultrasonic", rawValue); // put the value of the ultrasonic sensor on the Smart Dashboard

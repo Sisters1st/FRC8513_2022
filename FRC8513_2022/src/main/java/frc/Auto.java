@@ -5,6 +5,9 @@ import frc.robot.Robot;
 
 public class Auto {
     public Robot thisRobot;
+    double goalMotorSpeed = 100000;
+    double motorDelta = 100000;
+    double controllerOutput = 100000;
 
     public Auto(Robot thisRobotParameter) {
         thisRobot = thisRobotParameter;
@@ -22,51 +25,70 @@ public class Auto {
         thisRobot.straightPID.reset();
         thisRobot.distancePID.reset();
     }
+    
+    public void autoPeriodic()
+    {
+        thisRobot.autoAction = 1;
+        thisRobot.ahrs.reset();
+        thisRobot.autoGoalAngle = 90;
+        autoActions();
+        if(thisRobot.autoActionIsDone==true){
+            thisRobot.autoAction = 0;
+        }
+      //  thisRobot.autoGoalDistance = 1;
+       // thisRobot.currentPosition = 0;
+       
+
+
+    }
 
     /** This function is called periodically during autonomous. */
-    public void autoPeriodic() {
-        double goalMotorSpeed = 100000;
-        double motorDelta = 100000;
-        double controllerOutput = 100000;
-        switch ((int) thisRobot.Auto) {
-            case 0:
-                // do nothing auto
-                break;
-            case 11: //turn 90 degrees to the right with PID
+    public void autoActions() {
+        switch ((int) thisRobot.autoAction) {
+            case 0: //default
+                thisRobot.m_myRobot.stopMotor();
+             break;
+            case 1: //turn 90 degrees to the right with PID
                 controllerOutput = thisRobot.turnPID.calculate(thisRobot.currentAngle, thisRobot.autoGoalAngle);
                 goalMotorSpeed = MathUtil.clamp(controllerOutput, -1, 1);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed, -goalMotorSpeed);
+                if(Math.abs(thisRobot.autoGoalAngle - thisRobot.currentAngle) < thisRobot.autoAngleTHold) 
+                {
+                  thisRobot.tHoldCounter++;
+                  if(thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) 
+                  {
+                    thisRobot.autoActionIsDone = true;
+                  }
+                }
+                else
+                {
+                thisRobot.tHoldCounter = 0;
+                }
                 break;
-            case 12: // drive straight with PID
-                controllerOutput = thisRobot.straightPID.calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
-                motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
-                goalMotorSpeed = 0.5;
-                thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
-                break;
-            case 13: // drive straight backward with PID
-                controllerOutput = thisRobot.straightPID.calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
-                motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
-                goalMotorSpeed = -0.5;
-                thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
-                break;
-            case 14: // drive straight to a distance with PID
+            case 2: // drive straight to a distance with PID
                 double distanceControllerOutput = thisRobot.distancePID.calculate(
-                        (thisRobot.leftEncoderPosition + thisRobot.rightEncoderPosition) / 2, 38.216);
+                        thisRobot.currentPosition, thisRobot.autoGoalDistance);
                 goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.6, .6);
                 controllerOutput = thisRobot.straightPID.calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
                 motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
-                break;
-            case 15: // drive straight to a distance with PID
-                distanceControllerOutput = thisRobot.distancePID.calculate((thisRobot.leftEncoderPosition + thisRobot.rightEncoderPosition) / 2,
-                        -38.216);
-                goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.6, .6);
-                controllerOutput = thisRobot.straightPID.calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
-                motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
-                thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
+                if(Math.abs(thisRobot.autoGoalDistance - thisRobot.currentPosition) < thisRobot.autoDistanceTHold) 
+                {
+                  thisRobot.tHoldCounter++;
+                  if(thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) 
+                  {
+                    thisRobot.autoActionIsDone = true;
+
+                  }
+                }
+                else
+                {
+                thisRobot.tHoldCounter = 0;
+                }
                 break;
             default:
-                // do nothing
+            thisRobot.m_myRobot.stopMotor();
+            
         }
         SmartDashboard.putNumber("autoGoalError", thisRobot.autoGoalAngle - thisRobot.currentAngle);
         SmartDashboard.putNumber("controllerOutput", controllerOutput);
