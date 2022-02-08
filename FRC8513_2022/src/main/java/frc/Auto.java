@@ -1,4 +1,5 @@
 package frc;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -25,70 +26,93 @@ public class Auto {
         thisRobot.straightPID.reset();
         thisRobot.distancePID.reset();
     }
-    
-    public void autoPeriodic()
-    {
-        thisRobot.autoAction = 1;
-        thisRobot.ahrs.reset();
-        thisRobot.autoGoalAngle = 90;
-        autoActions();
-        if(thisRobot.autoActionIsDone==true){
-            thisRobot.autoAction = 0;
-        }
-      //  thisRobot.autoGoalDistance = 1;
-       // thisRobot.currentPosition = 0;
-       
 
+    public void autoPeriodic() {
+        switch ((int) thisRobot.autoStep) {
+            case 0:
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = 90;
+                thisRobot.autoStep++;
+                break;
+            case 1:
+                // waiting for first turn to complete
+                break;
+            case 2:// drive straight
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = 10;
+                thisRobot.autoStep++;
+                break;
+            case 3:
+                // waiting for driving straight to complete
+                break;
+            case 4:
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = -90;
+            thisRobot.autoStep++;
+            break;
+            case 5:
+            //waiting
+            break;
+            case 6:
+            thisRobot.autoAction = 0;
+            default:
+                thisRobot.autoAction = 0;
+        }
+        autoActions();
+        if (thisRobot.autoActionIsDone == true) {
+            thisRobot.autoStep++;
+            thisRobot.autoActionIsDone = false;
+        }
 
     }
 
     /** This function is called periodically during autonomous. */
     public void autoActions() {
         switch ((int) thisRobot.autoAction) {
-            case 0: //default
+            case 0: // default
                 thisRobot.m_myRobot.stopMotor();
-             break;
-            case 1: //turn 90 degrees to the right with PID
+                break;
+            case 1: // turn 90 degrees to the right with PID
                 controllerOutput = thisRobot.turnPID.calculate(thisRobot.currentAngle, thisRobot.autoGoalAngle);
                 goalMotorSpeed = MathUtil.clamp(controllerOutput, -1, 1);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed, -goalMotorSpeed);
-                if(Math.abs(thisRobot.autoGoalAngle - thisRobot.currentAngle) < thisRobot.autoAngleTHold) 
+                if (Math.abs(thisRobot.autoGoalAngle - thisRobot.currentAngle) < thisRobot.autoAngleTHold) // if error
+                                                                                                           // is less
+                                                                                                           // than a set
+                                                                                                           // value
                 {
-                  thisRobot.tHoldCounter++;
-                  if(thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) 
-                  {
-                    thisRobot.autoActionIsDone = true;
-                  }
-                }
-                else
-                {
-                thisRobot.tHoldCounter = 0;
+                    thisRobot.tHoldCounter++;
+                    if (thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) {
+                        thisRobot.autoActionIsDone = true;
+                    }
+                } else {
+                    thisRobot.tHoldCounter = 0;
                 }
                 break;
             case 2: // drive straight to a distance with PID
                 double distanceControllerOutput = thisRobot.distancePID.calculate(
                         thisRobot.currentPosition, thisRobot.autoGoalDistance);
                 goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.6, .6);
-                controllerOutput = thisRobot.straightPID.calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
+                controllerOutput = thisRobot.straightPID
+                        .calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
                 motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
-                if(Math.abs(thisRobot.autoGoalDistance - thisRobot.currentPosition) < thisRobot.autoDistanceTHold) 
-                {
-                  thisRobot.tHoldCounter++;
-                  if(thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) 
-                  {
-                    thisRobot.autoActionIsDone = true;
+                if (Math.abs(thisRobot.autoGoalDistance - thisRobot.currentPosition) < thisRobot.autoDistanceTHold) {
+                    thisRobot.tHoldCounter++;
+                    if (thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) {
+                        thisRobot.autoActionIsDone = true;
 
-                  }
-                }
-                else
-                {
-                thisRobot.tHoldCounter = 0;
+                    }
+                } else {
+                    thisRobot.tHoldCounter = 0;
                 }
                 break;
             default:
-            thisRobot.m_myRobot.stopMotor();
-            
+                thisRobot.m_myRobot.stopMotor();
+
         }
         SmartDashboard.putNumber("autoGoalError", thisRobot.autoGoalAngle - thisRobot.currentAngle);
         SmartDashboard.putNumber("controllerOutput", controllerOutput);
@@ -96,4 +120,9 @@ public class Auto {
         SmartDashboard.putNumber("goalMotorSpeed", goalMotorSpeed);
     }
 
+    public void resetSensors() {
+        thisRobot.leftEncoder.setPosition(0);
+        thisRobot.rightEncoder.setPosition(0);
+        thisRobot.ahrs.reset();
+    }
 }

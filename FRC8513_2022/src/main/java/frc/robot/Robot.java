@@ -58,10 +58,11 @@ public class Robot extends TimedRobot {
   public double leftEncoderPosition = 0;
   public double rightEncoderPosition = 0;
   public double autoGoalAngle = 0;
-  public double autoAction;
+  public double autoAction=0;
+  public double autoStep=0;
   public double autoAngleTHold = 1;
   public double tHoldCounter;
-  public double tHoldCounterTHold = 20;
+  public double tHoldCounterTHold = 100;
   public boolean autoActionIsDone = false;
   public double autoGoalDistance;
   public double autoDistanceTHold;
@@ -137,14 +138,14 @@ public class Robot extends TimedRobot {
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
-    autoGoalAngle = Preferences.getDouble("GoalAngle", 1.0);
     currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2; 
   //putting variables on the Smart Dashboard
     SmartDashboard.putNumber("autoRead", Auto); // input an Auto case
     SmartDashboard.putNumber("ultrasonic", rawValue); // put the value of the ultrasonic sensor on the Smart Dashboard
-    SmartDashboard.putNumber("angle", currentAngle); // put the value of the current angle on the Smart Dashboard
+    SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart Dashboard
     SmartDashboard.putNumber("leftEncoder", leftEncoderPosition); // put the value of the left sensor on the Smart Dashboard
     SmartDashboard.putNumber("rightEncoder", rightEncoderPosition); // put the value of the right sensor on the Smart Dashboard
+    SmartDashboard.putNumber("autoGoalAngle", autoGoalAngle); //put the value of the auto goal angle on the Smart Dashboard
   }
 
   /** This function is run once at the beginning of each autonomous mode. */
