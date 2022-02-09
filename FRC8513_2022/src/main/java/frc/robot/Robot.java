@@ -61,17 +61,17 @@ public class Robot extends TimedRobot {
   public double autoAction=0;
   public double autoStep=0;
   public int autoDashboard=0;
-  public double autoAngleTHold = 1;
+  public double autoAngleTHold = 1.5;
   public double tHoldCounter;
-  public double tHoldCounterTHold = 100;
+  public double tHoldCounterTHold = 20;
   public boolean autoActionIsDone = false;
   public double autoGoalDistance;
   public double autoDistanceTHold;
   public double autoGoalSpeed;
   //turn PID variables
-  double kP_turn = .012;
-  double kI_turn = 0.004;
-  double kD_turn = 0.0009;
+  double kP_turn = .018;
+  double kI_turn = 0.01;
+  double kD_turn = 0.002;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
   //straight PID variables
   double kP_straight = 1;
