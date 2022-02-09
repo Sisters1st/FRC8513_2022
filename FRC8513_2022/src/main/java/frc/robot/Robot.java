@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
   public double autoGoalAngle = 0;
   public double autoAction=0;
   public double autoStep=0;
+  public int autoDashboard=0;
   public double autoAngleTHold = 1;
   public double tHoldCounter;
   public double tHoldCounterTHold = 100;
@@ -133,7 +134,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
   //Smart Dashboard variables
   //pdp, motor power, motor current, angle indicator, clean up dashboard
-    Auto = Preferences.getDouble("Auto", 1.0);
+    autoDashboard = Preferences.getInt("Auto", 0);
     double rawValue = ultrasonic.getValue();
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
@@ -146,6 +147,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("leftEncoder", leftEncoderPosition); // put the value of the left sensor on the Smart Dashboard
     SmartDashboard.putNumber("rightEncoder", rightEncoderPosition); // put the value of the right sensor on the Smart Dashboard
     SmartDashboard.putNumber("autoGoalAngle", autoGoalAngle); //put the value of the auto goal angle on the Smart Dashboard
+    SmartDashboard.putNumber("autoDashboard", autoDashboard); //put the value of the autoDashboard on the Smart Dashboard
   }
 
   /** This function is run once at the beginning of each autonomous mode. */
