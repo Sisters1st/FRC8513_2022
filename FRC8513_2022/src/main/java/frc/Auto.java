@@ -25,6 +25,8 @@ public class Auto {
         thisRobot.rightEncoder.setPosition(0);
         thisRobot.straightPID.reset();
         thisRobot.distancePID.reset();
+        thisRobot.autoStep = 0;
+        
     }
 
     public void autoPeriodic() {
@@ -33,18 +35,21 @@ public class Auto {
                 thisRobot.autoAction = 0;
                 break;
             case 1:
-                rightStraightLeft();
+                driveForward();
                 break;
             case 2:
-                backLefttFortyFive();
+                driveBackwards();
                 break;
             case 3:
-
-                autoActions();
-                if (thisRobot.autoActionIsDone == true) {
-                    thisRobot.autoStep++;
-                    thisRobot.autoActionIsDone = false;
-                }
+                backLefttFortyFive();
+                break;
+            default:
+                thisRobot.autoDashboard = 0;
+        }
+        autoActions();
+        if (thisRobot.autoActionIsDone) {
+            thisRobot.autoStep++;
+            thisRobot.autoActionIsDone = false;
         }
     }
 
@@ -58,11 +63,8 @@ public class Auto {
                 controllerOutput = thisRobot.turnPID.calculate(thisRobot.currentAngle, thisRobot.autoGoalAngle);
                 goalMotorSpeed = MathUtil.clamp(controllerOutput, -1, 1);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed, -goalMotorSpeed);
-                if (Math.abs(thisRobot.autoGoalAngle - thisRobot.currentAngle) < thisRobot.autoAngleTHold) // if error
-                                                                                                           // is less
-                                                                                                           // than a set
-                                                                                                           // value
-                {
+                // if error is less than a set value
+                if (Math.abs(thisRobot.autoGoalAngle - thisRobot.currentAngle) < thisRobot.autoAngleTHold) {
                     thisRobot.tHoldCounter++;
                     if (thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) {
                         thisRobot.autoActionIsDone = true;
@@ -83,7 +85,6 @@ public class Auto {
                     thisRobot.tHoldCounter++;
                     if (thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) {
                         thisRobot.autoActionIsDone = true;
-
                     }
                 } else {
                     thisRobot.tHoldCounter = 0;
@@ -105,42 +106,40 @@ public class Auto {
         thisRobot.ahrs.reset();
     }
 
-    public void rightStraightLeft() {
+    public void driveForward() {
         switch ((int) thisRobot.autoStep) {
             case 0: // turn right 90
-                thisRobot.autoAction = 1;
-                resetSensors();
-                thisRobot.autoGoalAngle = 90;
-                thisRobot.autoStep++;
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 5;
+            thisRobot.autoStep++;
                 break;
             case 1:
                 // waiting for first turn to complete
                 break;
-            case 2:// drive straight
-                thisRobot.autoAction = 2;
-                resetSensors();
-                thisRobot.autoGoalDistance = 10;
-                thisRobot.autoStep++;
-                break;
-            case 3:
-                // waiting for driving straight to complete
-                break;
-            case 4: // turn left 90
-                thisRobot.autoAction = 1;
-                resetSensors();
-                thisRobot.autoGoalAngle = -90;
-                thisRobot.autoStep++;
-                break;
-            case 5:
-                // waiting
-                break;
-            case 6: // stopping
+            case 2: // stopping
                 thisRobot.autoAction = 0;
             default:
                 thisRobot.autoAction = 0;
         }
     }
-
+    public void driveBackwards() {
+        switch ((int) thisRobot.autoStep) {
+            case 0: // turn right 90
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = -5;
+            thisRobot.autoStep++;
+                break;
+            case 1:
+                // waiting for first turn to complete
+                break;
+            case 2: // stopping
+                thisRobot.autoAction = 0;
+            default:
+                thisRobot.autoAction = 0;
+        }
+    }
     public void backLefttFortyFive() {
         switch ((int) thisRobot.autoStep) {
             case 0: // drive back straight
@@ -194,82 +193,81 @@ public class Auto {
     }
 
     // right, straigh, right, straight, left, straight, left, straight
-public void rsRSlsLS()
-{
-    switch ((int) thisRobot.autoStep) {
-        case 0: // turn right 90
-        thisRobot.autoAction = 1;
-        resetSensors();
-        thisRobot.autoGoalAngle = 90;
-        thisRobot.autoStep++;
-        break;
-        case 1:
-            // waiting for first turn to complete
-            break;
-        case 2:// straigt
-        thisRobot.autoAction = 2;
-        resetSensors();
-        thisRobot.autoGoalDistance = 10;
-        thisRobot.autoStep++;
-        break;
-        case 3:
-            // waiting for driving straight to complete
-            break;
+    public void rsRSlsLS() {
+        switch ((int) thisRobot.autoStep) {
+            case 0: // turn right 90
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = 90;
+                thisRobot.autoStep++;
+                break;
+            case 1:
+                // waiting for first turn to complete
+                break;
+            case 2:// straigt
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = 10;
+                thisRobot.autoStep++;
+                break;
+            case 3:
+                // waiting for driving straight to complete
+                break;
             case 4: // turn right 90
-        thisRobot.autoAction = 1;
-        resetSensors();
-        thisRobot.autoGoalAngle = 90;
-        thisRobot.autoStep++;
-        break;
-        case 5:
-            // waiting for first turn to complete
-            break;
-        case 6:// straigt
-        thisRobot.autoAction = 2;
-        resetSensors();
-        thisRobot.autoGoalDistance = 10;
-        thisRobot.autoStep++;
-        break;
-        case 7:
-            // waiting for driving straight to complete
-            break;
-        case 8: // turn left 90
-        thisRobot.autoAction = 1;
-        resetSensors();
-        thisRobot.autoGoalAngle = -90;
-        thisRobot.autoStep++;
-        break;
-        case 9:
-            // waiting
-            break;
-        case 10: // straight
-        thisRobot.autoAction = 2;
-        resetSensors();
-        thisRobot.autoGoalDistance = 10;
-        thisRobot.autoStep++;
-        break;
-        case 11:
-            // waiting
-            break;
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = 90;
+                thisRobot.autoStep++;
+                break;
+            case 5:
+                // waiting for first turn to complete
+                break;
+            case 6:// straigt
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = 10;
+                thisRobot.autoStep++;
+                break;
+            case 7:
+                // waiting for driving straight to complete
+                break;
+            case 8: // turn left 90
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = -90;
+                thisRobot.autoStep++;
+                break;
+            case 9:
+                // waiting
+                break;
+            case 10: // straight
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = 10;
+                thisRobot.autoStep++;
+                break;
+            case 11:
+                // waiting
+                break;
             case 12: // turn left 90
-        thisRobot.autoAction = 1;
-        resetSensors();
-        thisRobot.autoGoalAngle = -90;
-        thisRobot.autoStep++;
-        break;
-        case 13:
-        // waiting
-        break;
-        case 14: // straight
-            thisRobot.autoAction = 2;
-            resetSensors();
-            thisRobot.autoGoalDistance = 10;
-            thisRobot.autoStep++;
-            break;
-        case 15: // stopping
-            thisRobot.autoAction = 0;
-        default:
-            thisRobot.autoAction = 0;
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = -90;
+                thisRobot.autoStep++;
+                break;
+            case 13:
+                // waiting
+                break;
+            case 14: // straight
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = 10;
+                thisRobot.autoStep++;
+                break;
+            case 15: // stopping
+                thisRobot.autoAction = 0;
+            default:
+                thisRobot.autoAction = 0;
+        }
     }
-}
 }
