@@ -35,9 +35,12 @@ public class Auto {
                 thisRobot.autoAction = 0;
                 break;
             case 1:
-                rightStraightLeft();
+                driveForward();
                 break;
             case 2:
+                driveBackwards();
+                break;
+            case 3:
                 backLefttFortyFive();
                 break;
             default:
@@ -103,42 +106,40 @@ public class Auto {
         thisRobot.ahrs.reset();
     }
 
-    public void rightStraightLeft() {
+    public void driveForward() {
         switch ((int) thisRobot.autoStep) {
             case 0: // turn right 90
-                thisRobot.autoAction = 1;
-                resetSensors();
-                thisRobot.autoGoalAngle = 90;
-                thisRobot.autoStep++;
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 5;
+            thisRobot.autoStep++;
                 break;
             case 1:
                 // waiting for first turn to complete
                 break;
-            case 2:// drive straight
-                thisRobot.autoAction = 2;
-                resetSensors();
-                thisRobot.autoGoalDistance = 10;
-                thisRobot.autoStep = 6;
-                break;
-            case 3:
-                // waiting for driving straight to complete
-                break;
-            case 4: // turn left 90
-                thisRobot.autoAction = 1;
-                resetSensors();
-                thisRobot.autoGoalAngle = -90;
-                thisRobot.autoStep++;
-                break;
-            case 5:
-                // waiting for turn to finish
-                break;
-            case 6: // stopping
+            case 2: // stopping
                 thisRobot.autoAction = 0;
             default:
                 thisRobot.autoAction = 0;
         }
     }
-
+    public void driveBackwards() {
+        switch ((int) thisRobot.autoStep) {
+            case 0: // turn right 90
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = -5;
+            thisRobot.autoStep++;
+                break;
+            case 1:
+                // waiting for first turn to complete
+                break;
+            case 2: // stopping
+                thisRobot.autoAction = 0;
+            default:
+                thisRobot.autoAction = 0;
+        }
+    }
     public void backLefttFortyFive() {
         switch ((int) thisRobot.autoStep) {
             case 0: // drive back straight

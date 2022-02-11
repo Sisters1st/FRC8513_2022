@@ -15,18 +15,18 @@ public class Teleop {
   public void telePeriodic() {
     //squaring the axis to make it easier to drive
     double leftPow = 0;
-    double leftJoy = thisRobot.joystick.getY();
+    double leftJoy = -thisRobot.joystick.getY();
     if (leftJoy > 0) {
-      leftPow = -1 * leftJoy * leftJoy;
+      leftPow =  leftJoy;// * leftJoy;
     } else {
-      leftPow = leftJoy * leftJoy;
+      leftPow = leftJoy;// * leftJoy;
     }
     double rightPow = 0;
-    double rightJoy = thisRobot.joystick.getRawAxis(3);
+    double rightJoy =- thisRobot.joystick.getRawAxis(3);
     if (rightJoy > 0) {
-      rightPow = -1 * rightJoy * rightJoy;
+      rightPow =  rightJoy;// * rightJoy;
     } else {
-      rightPow = rightJoy * rightJoy;
+      rightPow = rightJoy;// * rightJoy;
     }
     //coding for the buttons
     thisRobot.m_myRobot.tankDrive(leftPow, rightPow);

@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
   public double tHoldCounterTHold = 20;
   public boolean autoActionIsDone = false;
   public double autoGoalDistance;
-  public double autoDistanceTHold;
+  public double autoDistanceTHold = .05;
   public double autoGoalSpeed;
   //turn PID variables
   double kP_turn = .018;
