@@ -7,5 +7,6 @@ dashboard delay start
 
 Teleop:
 state machine for intake
-toggel between arcade and trank from the dashbaprd
-toggel between x^2 inputs and x inputs
+maybe - toggel squared when arcade drive
+clean up dashboard
+
