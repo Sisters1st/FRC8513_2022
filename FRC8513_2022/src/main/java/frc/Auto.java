@@ -192,7 +192,7 @@ public class Auto {
         }
     }
 
-    // right, straigh, right, straight, left, straight, left, straight
+    // right, straight, right, straight, left, straight, left, straight
     public void rsRSlsLS() {
         switch ((int) thisRobot.autoStep) {
             case 0: // turn right 90
@@ -270,4 +270,47 @@ public class Auto {
                 thisRobot.autoAction = 0;
         }
     }
+    public void turnAroundDriveStraightTurnAroundDriveStraight() {
+            switch ((int) thisRobot.autoStep) {
+                case 0: // turn 180
+                    thisRobot.autoAction = 1;
+                    resetSensors();
+                    thisRobot.autoGoalAngle = 180;
+                    thisRobot.autoStep++;
+                    break;
+                case 1:
+                    // waiting for first turn to complete
+                    break;
+                case 2:// straight
+                    thisRobot.autoAction = 2;
+                    resetSensors();
+                    thisRobot.autoGoalDistance = 10;
+                    thisRobot.autoStep++;
+                    break;
+                case 3:
+                    // waiting for driving straight to complete
+                    break;
+                case 4: // turn 180
+                    thisRobot.autoAction = 1;
+                    resetSensors();
+                    thisRobot.autoGoalAngle = 180;
+                    thisRobot.autoStep++;
+                    break;
+                case 5:
+                    // waiting for first turn to complete
+                    break;
+                case 6:// straight
+                    thisRobot.autoAction = 2;
+                    resetSensors();
+                    thisRobot.autoGoalDistance = 10;
+                    thisRobot.autoStep++;
+                    break;
+                case 7:
+                    // waiting for driving straight to complete
+                    break;
+                default:
+                    thisRobot.autoAction = 0;
+            }
+}
+public void leftStraight
 }
