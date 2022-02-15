@@ -9,4 +9,4 @@ Teleop:
 state machine for intake
 maybe - toggel squared when arcade drive
 clean up dashboard
-
+change joysticks for x-box controller
