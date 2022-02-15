@@ -48,26 +48,7 @@ public class Teleop {
       default:
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
     }
-    // coding for the buttons
-    if (thisRobot.joystick.getRawButtonPressed(6)) {
-      thisRobot.m_mechID1.set(.5);
     }
-    if (thisRobot.joystick.getRawButtonPressed(8)) {
-      thisRobot.m_mechID1.set(-.5);
-    }
-    if (thisRobot.joystick.getRawButtonPressed(7)) {
-      thisRobot.m_mechID2.set(.5);
-    }
-    if (thisRobot.joystick.getRawButtonPressed(5)) {
-      thisRobot.m_mechID2.set(-.5);
-    }
-    if (!thisRobot.joystick.getRawButton(6) && !thisRobot.joystick.getRawButton(8)) {
-      thisRobot.m_mechID1.set(0);
-    }
-    if (!thisRobot.joystick.getRawButton(5) && !thisRobot.joystick.getRawButton(7)) {
-      thisRobot.m_mechID2.set(0);
-    }
-  }
 
   public void squaringController() {
     // squaring the axis to make it easier to drive
