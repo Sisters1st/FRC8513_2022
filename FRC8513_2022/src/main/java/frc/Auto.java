@@ -312,5 +312,4 @@ public class Auto {
                     thisRobot.autoAction = 0;
             }
 }
-public void leftStraight
 }
