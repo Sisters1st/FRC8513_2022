@@ -33,24 +33,24 @@ import com.revrobotics.SparkMaxRelativeEncoder.Type;
 public class Robot extends TimedRobot {
   public DifferentialDrive m_myRobot;
   public Joystick joystick;
-//initiallizing motors
+  // initiallizing motors
   public static final int leftMotorID1 = 4;
   public static final int leftMotorID2 = 5;
   public static final int rightMotorID1 = 2;
   public static final int rightMotorID2 = 3;
-  public static final int mechFinalID1 = 6;
-  public static final int mechFinalID2 = 7;
-//initiallizing Can Sparks to 
+  public static final int lowerIntakeID = 6;
+  public static final int upperIntakeID = 7;
+  // initiallizing Can Sparks to
   public CANSparkMax m_leftMotor1;
   public CANSparkMax m_leftMotor2;
   public CANSparkMax m_rightMotor1;
   public CANSparkMax m_rightMotor2;
-  public CANSparkMax m_mechID1;
-  public CANSparkMax m_mechID2;
-//motor controller groups
+  public CANSparkMax m_lowerIntakeMotor;
+  public CANSparkMax m_upperIntakeMotor;
+  // motor controller groups
   public MotorControllerGroup m_left;
   public MotorControllerGroup m_right;
-//variables used in the Auto class
+  // variables used in the Auto class
   public final Timer m_timer = new Timer();
   public double Auto = 0;
   public double autoStartingAngle;
@@ -58,9 +58,9 @@ public class Robot extends TimedRobot {
   public double leftEncoderPosition = 0;
   public double rightEncoderPosition = 0;
   public double autoGoalAngle = 0;
-  public double autoAction=0;
-  public double autoStep=0;
-  public int autoDashboard=0;
+  public double autoAction = 0;
+  public double autoStep = 0;
+  public int autoDashboard = 0;
   public double autoAngleTHold = 1.5;
   public double tHoldCounter;
   public double tHoldCounterTHold = 20;
@@ -68,12 +68,12 @@ public class Robot extends TimedRobot {
   public double autoGoalDistance;
   public double autoDistanceTHold = .05;
   public double autoGoalSpeed;
-  //turn PID variables
+  // turn PID variables
   double kP_turn = .018;
   double kI_turn = 0.01;
   double kD_turn = 0.002;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
-  //straight PID variables
+  // straight PID variables
   double kP_straight = 1;
   double kI_straight = 0.1;
   double kD_straight = 0;
@@ -83,13 +83,17 @@ public class Robot extends TimedRobot {
   double kI_distance = 0;
   double kD_distance = .001;
   public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
-//sensors
+  // sensors
   public AHRS ahrs;
   public final AnalogInput ultrasonic = new AnalogInput(0);
   public RelativeEncoder leftEncoder;
   public RelativeEncoder rightEncoder;
   public double currentPosition;
-//instantiating the classes
+  // intake state machine
+  public double lowerMotorPower;
+  public double upperMotorPower;
+  public double flywheelMotor;
+  // instantiating the classes
   public frc.Auto autoController = new frc.Auto(this);
   public frc.Teleop teleopController = new frc.Teleop(this);
 
@@ -107,8 +111,8 @@ public class Robot extends TimedRobot {
     m_leftMotor2 = new CANSparkMax(leftMotorID2, MotorType.kBrushed);
     m_rightMotor1 = new CANSparkMax(rightMotorID1, MotorType.kBrushed);
     m_rightMotor2 = new CANSparkMax(rightMotorID2, MotorType.kBrushed);
-    m_mechID1 = new CANSparkMax(mechFinalID1, MotorType.kBrushed);
-    m_mechID2 = new CANSparkMax(mechFinalID2, MotorType.kBrushed);
+    m_lowerIntakeMotor = new CANSparkMax(lowerIntakeID, MotorType.kBrushed);
+    m_upperIntakeMotor = new CANSparkMax(upperIntakeID, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
     leftEncoder = m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
     rightEncoder = m_rightMotor1.getEncoder(Type.kQuadrature, 8192);
@@ -132,22 +136,27 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-  //Smart Dashboard variables
-  //pdp, motor power, motor current, angle indicator, clean up dashboard
+    // Smart Dashboard variables
+    // pdp, motor power, motor current, angle indicator, clean up dashboard
     autoDashboard = Preferences.getInt("Auto", 0);
     double rawValue = ultrasonic.getValue();
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
-    currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2; 
-  //putting variables on the Smart Dashboard
+    currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
+    // putting variables on the Smart Dashboard
     SmartDashboard.putNumber("autoRead", Auto); // input an Auto case
     SmartDashboard.putNumber("ultrasonic", rawValue); // put the value of the ultrasonic sensor on the Smart Dashboard
-    SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart Dashboard
-    SmartDashboard.putNumber("leftEncoder", leftEncoderPosition); // put the value of the left sensor on the Smart Dashboard
-    SmartDashboard.putNumber("rightEncoder", rightEncoderPosition); // put the value of the right sensor on the Smart Dashboard
-    SmartDashboard.putNumber("autoGoalAngle", autoGoalAngle); //put the value of the auto goal angle on the Smart Dashboard
-    SmartDashboard.putNumber("autoDashboard", autoDashboard); //put the value of the autoDashboard on the Smart Dashboard
+    SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart
+                                                             // Dashboard
+    SmartDashboard.putNumber("leftEncoder", leftEncoderPosition); // put the value of the left sensor on the Smart
+                                                                  // Dashboard
+    SmartDashboard.putNumber("rightEncoder", rightEncoderPosition); // put the value of the right sensor on the Smart
+                                                                    // Dashboard
+    SmartDashboard.putNumber("autoGoalAngle", autoGoalAngle); // put the value of the auto goal angle on the Smart
+                                                              // Dashboard
+    SmartDashboard.putNumber("autoDashboard", autoDashboard); // put the value of the autoDashboard on the Smart
+                                                              // Dashboard
   }
 
   /** This function is run once at the beginning of each autonomous mode. */
@@ -160,7 +169,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     autoController.autoPeriodic();
-    }
+  }
 
   /**
    * This function is called once each time the robot enters teleoperated mode.
@@ -173,7 +182,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-   teleopController.telePeriodic();
+    teleopController.telePeriodic();
   }
 
   /** This function is called once each time the robot enters test mode. */

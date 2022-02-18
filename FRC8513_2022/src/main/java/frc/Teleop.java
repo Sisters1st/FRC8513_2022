@@ -26,7 +26,7 @@ public class Teleop {
     SmartDashboard.putNumber("linearJoystick", linearJoystick); // put the value of the autoDashboard on the Smart
     int arcadeDrive = Preferences.getInt("arcadeDrive", 0);
     leftJoy = -thisRobot.joystick.getY();
-    rightJoy = -thisRobot.joystick.getRawAxis(3);
+    rightJoy = -thisRobot.joystick.getRawAxis(5);
     switch (linearJoystick) {
       case 0:
         squaringController();
@@ -42,32 +42,13 @@ public class Teleop {
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
         break;
       case 1:
-        thisRobot.m_myRobot.arcadeDrive(-thisRobot.joystick.getY(), thisRobot.joystick.getRawAxis(2));
+        thisRobot.m_myRobot.arcadeDrive(-thisRobot.joystick.getY(), thisRobot.joystick.getRawAxis(4));
         // arcade drive
         break;
       default:
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
     }
-    // coding for the buttons
-    if (thisRobot.joystick.getRawButtonPressed(6)) {
-      thisRobot.m_mechID1.set(.5);
     }
-    if (thisRobot.joystick.getRawButtonPressed(8)) {
-      thisRobot.m_mechID1.set(-.5);
-    }
-    if (thisRobot.joystick.getRawButtonPressed(7)) {
-      thisRobot.m_mechID2.set(.5);
-    }
-    if (thisRobot.joystick.getRawButtonPressed(5)) {
-      thisRobot.m_mechID2.set(-.5);
-    }
-    if (!thisRobot.joystick.getRawButton(6) && !thisRobot.joystick.getRawButton(8)) {
-      thisRobot.m_mechID1.set(0);
-    }
-    if (!thisRobot.joystick.getRawButton(5) && !thisRobot.joystick.getRawButton(7)) {
-      thisRobot.m_mechID2.set(0);
-    }
-  }
 
   public void squaringController() {
     // squaring the axis to make it easier to drive
