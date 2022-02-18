@@ -96,7 +96,7 @@ public class Auto {
         }
         SmartDashboard.putNumber("autoGoalError", thisRobot.autoGoalAngle - thisRobot.currentAngle);
         SmartDashboard.putNumber("controllerOutput", controllerOutput);
-        SmartDashboard.putNumber("dirveStraightMotorDelta", motorDelta);
+        SmartDashboard.putNumber("driveStraightMotorDelta", motorDelta);
         SmartDashboard.putNumber("goalMotorSpeed", goalMotorSpeed);
     }
 
