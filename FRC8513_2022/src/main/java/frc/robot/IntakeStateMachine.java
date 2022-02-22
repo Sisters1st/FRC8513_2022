@@ -133,6 +133,10 @@ public class IntakeStateMachine {
       }
       //add automatic code once color sensor is set up
       break;
+    case 8: //shoot in 
+      thisRobot.lowerMotorPower=0;
+      thisRobot.upperMotorPower=1;
+      thisRobot.flywheelMotor=1;
     default:
     {   
       intakeState=1;
