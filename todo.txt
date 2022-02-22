@@ -10,3 +10,7 @@ state machine for intake
 maybe - toggel squared when arcade drive
 clean up dashboard
 change joysticks for x-box controller
+
+add intake states 6 and 7 to manually intake and shoot and outake 
+get flywheel to work?
+weight robot tomorrow to look into getting weights 

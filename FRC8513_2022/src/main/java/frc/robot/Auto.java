@@ -1,8 +1,7 @@
-package frc;
+package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 
 public class Auto {
     public Robot thisRobot;

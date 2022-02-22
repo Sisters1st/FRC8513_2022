@@ -38,8 +38,8 @@ public class Robot extends TimedRobot {
   public static final int leftMotorID2 = 5;
   public static final int rightMotorID1 = 2;
   public static final int rightMotorID2 = 3;
-  public static final int lowerIntakeID = 6;
-  public static final int upperIntakeID = 7;
+  public static final int lowerIntakeID = 9;
+  public static final int upperIntakeID = 6;
   // initiallizing Can Sparks to
   public CANSparkMax m_leftMotor1;
   public CANSparkMax m_leftMotor2;
@@ -94,8 +94,9 @@ public class Robot extends TimedRobot {
   public double upperMotorPower;
   public double flywheelMotor;
   // instantiating the classes
-  public frc.Auto autoController = new frc.Auto(this);
-  public frc.Teleop teleopController = new frc.Teleop(this);
+  public frc.robot.Auto autoController = new frc.robot.Auto(this);
+  public frc.robot.Teleop teleopController = new frc.robot.Teleop(this);
+  public frc.robot.IntakeStateMachine intakeStateController = new frc.robot.IntakeStateMachine(this);
 
   /**
    * This function is run when the robot is first started up and should be used

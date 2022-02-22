@@ -83,7 +83,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="goal motor speed"/>
-	<hidden field="dirveStraightMotor Delta"/>
-	<hidden field="dirveDistanceMotor Delta"/>
 </xml>

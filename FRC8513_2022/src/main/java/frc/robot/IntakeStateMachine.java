@@ -1,6 +1,5 @@
-package frc;
+package frc.robot;
 
-import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.*;
 import com.revrobotics.Rev2mDistanceSensor.Port;
@@ -31,8 +30,14 @@ public class IntakeStateMachine {
 
   public void updateState()
   {
-    upperSensorDistance=upperIntakeSensor.getRange();
-    lowerSensorDistance=lowerIntakeSensor.GetRange();
+    try {
+      upperSensorDistance=upperIntakeSensor.GetRange();
+      lowerSensorDistance=lowerIntakeSensor.GetRange();
+    }
+    catch(Exception e) {
+      upperSensorDistance=-1;
+      lowerSensorDistance=-1;
+    }
     switch(intakeState){
     case 0:
     break;
@@ -70,7 +75,7 @@ public class IntakeStateMachine {
       {
         intakeState=1;
       }
-      if(upperIntakeSensor.GetRange()<upperIntakeSensorTHold)
+      if(upperSensorDistance<upperIntakeSensorTHold)
       {
         intakeState=4;
       }
@@ -87,7 +92,7 @@ public class IntakeStateMachine {
       {
         intakeState=2;
       }
-      if(lowerIntakeSensor.GetRange()<lowerIntakeSensorTHold)
+      if(lowerSensorDistance<lowerIntakeSensorTHold)
       {
         intakeState=1;
       }

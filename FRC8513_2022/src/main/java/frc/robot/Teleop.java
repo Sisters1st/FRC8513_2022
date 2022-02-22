@@ -1,8 +1,7 @@
-package frc;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 
 public class Teleop {
   public Robot thisRobot;
@@ -18,6 +17,7 @@ public class Teleop {
 
   //
   public void teleInit() {
+    thisRobot.intakeStateController.setState(1);
   }
 
   /** This function is called periodically during teleoperated mode. */
@@ -48,6 +48,8 @@ public class Teleop {
       default:
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
     }
+    thisRobot.intakeStateController.updateState();
+    thisRobot.intakeStateController.updateMotorPower();
     }
 
   public void squaringController() {
