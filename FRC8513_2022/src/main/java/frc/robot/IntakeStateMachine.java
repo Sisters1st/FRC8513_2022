@@ -44,7 +44,7 @@ public class IntakeStateMachine {
     case 1: //do nothing
       thisRobot.lowerMotorPower=0;
       thisRobot.upperMotorPower=0;
-      thisRobot.flywheelMotor=0;
+      thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonPressed(1))
       {
         intakeState=3;
@@ -65,11 +65,15 @@ public class IntakeStateMachine {
       {
         intakeState=7;
       }
+      if(thisRobot.joystick.getRawButtonPressed(4))
+      {
+        intakeState=9;
+      }
     break;
     case 2: //both elevators on (dump)
       thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotor=1;
+      thisRobot.flywheelMotorPower=1;
       if(thisRobot.joystick.getRawButtonReleased(2))
       {
         intakeState=1;
@@ -78,7 +82,7 @@ public class IntakeStateMachine {
     case 3: //both elevators on
       thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotor=0;
+      thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonPressed(4))
       {
         intakeState=1;
@@ -91,7 +95,7 @@ public class IntakeStateMachine {
     case 4: //lower elevators on
      thisRobot.lowerMotorPower=1;
      thisRobot.upperMotorPower=0;
-     thisRobot.flywheelMotor=0;
+     thisRobot.flywheelMotorPower=0;
      if(thisRobot.joystick.getRawButtonPressed(4))
       {
         intakeState=1;
@@ -106,9 +110,9 @@ public class IntakeStateMachine {
       }
     break;
     case 5: //forced intake state
-      thisRobot.lowerMotorPower=1;
-      thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotor=0;
+      thisRobot.lowerMotorPower=5;
+      thisRobot.upperMotorPower=5;
+      thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonReleased(5))
       {
         intakeState=1;
@@ -117,7 +121,7 @@ public class IntakeStateMachine {
     case 6: //manually shoot
       thisRobot.lowerMotorPower=0;
       thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotor=1;
+      thisRobot.flywheelMotorPower=1;
       if(thisRobot.joystick.getRawButtonReleased(6))
       {
         intakeState=1;
@@ -126,7 +130,7 @@ public class IntakeStateMachine {
     case 7: //outtake if the wrong color ball
       thisRobot.lowerMotorPower=-1;
       thisRobot.upperMotorPower=-1;
-      thisRobot.flywheelMotor=0;
+      thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonReleased(3)) //manual
       {
         intakeState=1;
@@ -136,7 +140,11 @@ public class IntakeStateMachine {
     case 8: //shoot in 
       thisRobot.lowerMotorPower=0;
       thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotor=1;
+      thisRobot.flywheelMotorPower=3;
+    case 9: //flywheel
+      thisRobot.lowerMotorPower=1;
+      thisRobot.upperMotorPower=0;
+      thisRobot.flywheelMotorPower=0;
     default:
     {   
       intakeState=1;
@@ -150,8 +158,9 @@ public void updateMotorPower()
 {
   thisRobot.m_lowerIntakeMotor.set(thisRobot.lowerMotorPower);
   thisRobot.m_upperIntakeMotor.set(thisRobot.upperMotorPower);
-  // set this later flywheelMotor if needed
-  SmartDashboard.putNumber("lowerMotorPower", thisRobot.lowerMotorPower); 
+  thisRobot.m_flywheelMotor.set(thisRobot.flywheelMotorPower);
+  SmartDashboard.putNumber("flywheelMotorPower", thisRobot.upperMotorPower); 
+  SmartDashboard.putNumber("lowerMotorPower", thisRobot.upperMotorPower); 
   SmartDashboard.putNumber("upperMotorPower", thisRobot.upperMotorPower); 
 }
 }

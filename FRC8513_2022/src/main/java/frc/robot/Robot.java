@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
   // intake state machine
   public double lowerMotorPower;
   public double upperMotorPower;
-  public double flywheelMotor;
+  public double flywheelMotorPower;
   // instantiating the classes
   public frc.robot.Auto autoController = new frc.robot.Auto(this);
   public frc.robot.Teleop teleopController = new frc.robot.Teleop(this);

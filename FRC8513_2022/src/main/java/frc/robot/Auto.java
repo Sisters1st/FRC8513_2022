@@ -107,7 +107,7 @@ public class Auto {
 
     public void driveForward() {
         switch ((int) thisRobot.autoStep) {
-            case 0: // turn right 90
+            case 0: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
                 thisRobot.autoGoalDistance = 5;
@@ -125,7 +125,7 @@ public class Auto {
 
     public void driveBackwards() {
         switch ((int) thisRobot.autoStep) {
-            case 0: // turn right 90
+            case 0: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
                 thisRobot.autoGoalDistance = -5;
@@ -408,6 +408,93 @@ public void intakeShootStraightIntakeShoot()
             thisRobot.intakeStateController.setState(8);
             break;
             default:
+            thisRobot.intakeStateController.setState(3);
+        }
+}
+public void intakeTurnStraightTurnStraightShoot()
+{
+    switch ((int) thisRobot.autoStep) {
+        case 0: //turn intake on
+            thisRobot.intakeStateController.setState(3);
+            thisRobot.autoStep++;
+        case 1: //setting our current time
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 2: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
+            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+            {
+                thisRobot.autoStep++;
+            }
+            break;
+        case 3: //turn 180 degrees
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = 180;
+            thisRobot.autoStep++;
+            break;
+        case 4: //setting our current time
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 5: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
+            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+            {
+                thisRobot.autoStep++;
+            }
+            break;
+        case 6: //drive straight
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 10;
+            thisRobot.autoStep++;
+            break;
+        case 7: //setting our current time
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 8: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
+            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+            {
+            thisRobot.autoStep++;
+            }
+            break;
+        case 9: //turn 180 degrees
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = 180;
+            thisRobot.autoStep++;
+            break;
+        case 10: //setting our current time
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 11: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
+            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+            {
+                thisRobot.autoStep++;
+            }
+            break;
+        case 12: //drive straight
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 10;
+            thisRobot.autoStep++;
+            break;
+        case 13: //setting our current time
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 14: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
+            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+            {
+            thisRobot.autoStep++;
+            }
+            break;
+        case 15: // shoot
+            thisRobot.intakeStateController.setState(8);
+            break;
+        default:
             thisRobot.intakeStateController.setState(3);
         }
 }
