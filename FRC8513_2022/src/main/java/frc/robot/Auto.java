@@ -40,7 +40,16 @@ public class Auto {
                 driveBackwards();
                 break;
             case 3:
-                backLefttFortyFive();
+                turn180();
+                break;
+            case 4:
+                shootReverse();
+                break;
+            case 5:
+                IntakeStraightTurnStraightShoot();
+                break;
+            case 6:
+                IntakeStraightTurnStraightShoot2();
                 break;
             default:
                 thisRobot.autoDashboard = 0;
@@ -50,6 +59,9 @@ public class Auto {
             thisRobot.autoStep++;
             thisRobot.autoActionIsDone = false;
         }
+        thisRobot.intakeStateController.updateState();
+        thisRobot.intakeStateController.updateMotorPower();
+        SmartDashboard.putNumber("autoStep", thisRobot.autoStep);
     }
 
     /** This function is called periodically during autonomous. */
@@ -140,6 +152,24 @@ public class Auto {
                 thisRobot.autoAction = 0;
         }
     }
+    public void turn180() {
+        switch ((int) thisRobot.autoStep) {
+            case 0: // drive backward
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = 180;
+                thisRobot.autoStep++;
+                break;
+            case 1:
+                // waiting for first turn to complete
+                break;
+            case 2: // stopping
+                thisRobot.autoAction = 0;
+            default:
+                thisRobot.autoAction = 0;
+        }
+    }
+
 
     public void backLefttFortyFive() {
         switch ((int) thisRobot.autoStep) {
@@ -331,7 +361,7 @@ public class Auto {
                 }
                 break;
             case 3: // straight
-                thisRobot.autoAction = 2;
+                thisRobot.autoAction = 1;
                 resetSensors();
                 thisRobot.autoGoalDistance = 10;
                 thisRobot.autoStep++;
@@ -356,12 +386,13 @@ public class Auto {
         }
     }
 
-public void intakeShootStraightIntakeShoot()
+public void shootReverse()
 {
     switch ((int) thisRobot.autoStep) {
-        case 0: //turn intake on
-            thisRobot.intakeStateController.setState(3);
+        case 0: //shoot
+            thisRobot.intakeStateController.intakeState=8;
             thisRobot.autoStep++;
+            break;
         case 1: //setting our current time
             thisRobot.autoStartTime = System.currentTimeMillis();
             thisRobot.autoStep++;
@@ -373,59 +404,36 @@ public void intakeShootStraightIntakeShoot()
             }
             break;
         case 3:
-            thisRobot.intakeStateController.setState(8);
+            thisRobot.intakeStateController.intakeState=1;
             thisRobot.autoStep++;
-        case 4:
+        case 4: //drive backward
             thisRobot.autoAction = 2;
             resetSensors();
-            thisRobot.autoGoalDistance = 10;
+            thisRobot.autoGoalDistance = -5;
             thisRobot.autoStep++;
             break;
-        case 5: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
-            thisRobot.autoStep++;
-            break;
-        case 6: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
-            {
-            thisRobot.autoStep++;
-            }
-            break;
-        case 7: //turn intake on
-            thisRobot.intakeStateController.setState(3);
-            thisRobot.autoStep++;
-        case 8: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
-            thisRobot.autoStep++;
-            break;
-        case 9: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
-            {
-            thisRobot.autoStep++;
-            }
-            break;
-        case 10: // shoot
-            thisRobot.intakeStateController.setState(8);
-            break;
-            default:
-            thisRobot.intakeStateController.setState(3);
+        case 5:
+        //wait for robot to finish driving backward
+        break;
+        case 6:
+        thisRobot.autoAction = 0;
+        break;
         }
 }
 public void intakeTurnStraightTurnStraightShoot()
 {
     switch ((int) thisRobot.autoStep) {
         case 0: //turn intake on
-            thisRobot.intakeStateController.setState(3);
-            thisRobot.autoStep++;
-        case 1: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.intakeStateController.setState(4);
             thisRobot.autoStep++;
             break;
-        case 2: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
-            {
-                thisRobot.autoStep++;
-            }
+        case 1: //drive straight
+        thisRobot.autoAction = 2;
+        resetSensors();
+        thisRobot.autoGoalDistance = 3;
+        thisRobot.autoStep++;
+        break;
+        case 2: //do nothing 
             break;
         case 3: //turn 180 degrees
             thisRobot.autoAction = 1;
@@ -433,69 +441,153 @@ public void intakeTurnStraightTurnStraightShoot()
             thisRobot.autoGoalAngle = 180;
             thisRobot.autoStep++;
             break;
-        case 4: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
+        case 4: //do nothing 
+            break;
+        case 5: //drive staright 
+        thisRobot.autoAction = 2;
+        resetSensors();
+        thisRobot.autoGoalDistance = 5;
+        thisRobot.autoStep++;
+            break;
+        case 6: //do nothing
+            break;
+        case 7: //shoot
+        thisRobot.intakeStateController.setState(8);
             thisRobot.autoStep++;
             break;
-        case 5: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
-            {
-                thisRobot.autoStep++;
-            }
+        case 8: //wait three seconds 
+        thisRobot.autoStartTime = System.currentTimeMillis();
+        thisRobot.autoStep++;
             break;
-        case 6: //drive straight
+        case 9: //wait three seconds 
+        if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+        {
+            thisRobot.autoStep++;
+        }
+        break;
+        case 10: //intake stop
+        thisRobot.intakeStateController.setState(1);
+        thisRobot.autoStep++;
+            break;
+        
+        }
+}
+public void IntakeStraightTurnStraightShoot()
+{
+    switch ((int) thisRobot.autoStep) {
+        case 0: //turn intake on
+            thisRobot.intakeStateController.intakeState=3;
+            SmartDashboard.putNumber("case 0", 0);
+            thisRobot.autoStep++;
+            break;
+        case 1: //drive forward
             thisRobot.autoAction = 2;
             resetSensors();
-            thisRobot.autoGoalDistance = 10;
+            thisRobot.autoGoalDistance = 2;
+            SmartDashboard.putNumber("case 1", 1);
             thisRobot.autoStep++;
             break;
-        case 7: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
-            thisRobot.autoStep++;
+        case 2: //setting our current time
+             SmartDashboard.putNumber("case 2", 2);
+            /*thisRobot.autoStartTime = System.currentTimeMillis();
+            SmartDashboard.putNumber("case 2", 2);
+            thisRobot.autoStep++;*/
             break;
-        case 8: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
+        case 3: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
+            SmartDashboard.putNumber("case 3", 3);
+            thisRobot.autoStep++;
+            /*if(System.currentTimeMillis()-thisRobot.autoStartTime>5000)
             {
-            thisRobot.autoStep++;
-            }
+                thisRobot.autoStep++;
+            }*/
             break;
-        case 9: //turn 180 degrees
+        case 4: //turn 180 degrees
             thisRobot.autoAction = 1;
             resetSensors();
             thisRobot.autoGoalAngle = 180;
+            SmartDashboard.putNumber("case 4", 4);
             thisRobot.autoStep++;
             break;
-        case 10: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
+        case 5: //drive forward
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalDistance = 2;
+            SmartDashboard.putNumber("case 5", 5);
             thisRobot.autoStep++;
             break;
-        case 11: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
-            {
-                thisRobot.autoStep++;
-            }
+        case 6:
+            thisRobot.intakeStateController.intakeState=8;
+            SmartDashboard.putNumber("case 6", 6);
+            thisRobot.autoStep++;
             break;
-        case 12: //drive straight
+        case 7:
+            thisRobot.intakeStateController.intakeState=1;
+            SmartDashboard.putNumber("case 7", 7);
+            thisRobot.autoStep++;
+            break;
+        case 8:
+        //wait for robot to finish driving backward
+        SmartDashboard.putNumber("case 8", 8);
+        break;
+        case 9:
+        thisRobot.autoAction = 0;
+        SmartDashboard.putNumber("case 9", 9);
+        break;
+        }
+}
+public void IntakeStraightTurnStraightShoot2()
+{
+    switch ((int) thisRobot.autoStep) {
+        case 0: //turn intake on
+            thisRobot.intakeStateController.intakeState=3;
+            SmartDashboard.putNumber("case 0", 0);
+            thisRobot.autoStep++;
+            break;
+        case 1: //drive forward
             thisRobot.autoAction = 2;
             resetSensors();
-            thisRobot.autoGoalDistance = 10;
+            thisRobot.autoGoalDistance = 2;
+            SmartDashboard.putNumber("case 1", 1);
             thisRobot.autoStep++;
             break;
-        case 13: //setting our current time
-            thisRobot.autoStartTime = System.currentTimeMillis();
+        case 2: //setting our current time
+             SmartDashboard.putNumber("case 2", 2);
+            /*thisRobot.autoStartTime = System.currentTimeMillis();
+            SmartDashboard.putNumber("case 2", 2);
+            thisRobot.autoStep++;*/
+            break;
+        case 3: //turn 180 degrees
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalAngle = 180;
+            SmartDashboard.putNumber("case 4", 4);
             thisRobot.autoStep++;
             break;
-        case 14: //checking if our elapsed time is greater than out threshold, if it is we move on to the next case, otherwise, we wait
-            if(System.currentTimeMillis()-thisRobot.autoStartTime>3000)
-            {
+        case 4: //drive forward
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalDistance = 2;
+            SmartDashboard.putNumber("case 5", 5);
             thisRobot.autoStep++;
-            }
             break;
-        case 15: // shoot
-            thisRobot.intakeStateController.setState(8);
+        case 5:
+            thisRobot.intakeStateController.intakeState=8;
+            SmartDashboard.putNumber("case 6", 6);
+            thisRobot.autoStep++;
             break;
-        default:
-            thisRobot.intakeStateController.setState(3);
+        case 6:
+            thisRobot.intakeStateController.intakeState=1;
+            SmartDashboard.putNumber("case 7", 7);
+            thisRobot.autoStep++;
+            break;
+        case 7:
+        //wait for robot to finish driving backward
+        SmartDashboard.putNumber("case 8", 8);
+        break;
+        case 8:
+        thisRobot.autoAction = 0;
+        SmartDashboard.putNumber("case 9", 9);
+        break;
         }
 }
 }

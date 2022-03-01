@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -88,7 +89,6 @@ public class Robot extends TimedRobot {
   public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
   // sensors
   public AHRS ahrs;
-  public final AnalogInput ultrasonic = new AnalogInput(0);
   public RelativeEncoder leftEncoder;
   public RelativeEncoder rightEncoder;
   public double currentPosition;
@@ -100,6 +100,10 @@ public class Robot extends TimedRobot {
   public frc.robot.Auto autoController = new frc.robot.Auto(this);
   public frc.robot.Teleop teleopController = new frc.robot.Teleop(this);
   public frc.robot.IntakeStateMachine intakeStateController = new frc.robot.IntakeStateMachine(this);
+  public boolean getTriggerPressed() {
+    return autoActionIsDone;
+
+  }
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -144,14 +148,11 @@ public class Robot extends TimedRobot {
     // Smart Dashboard variables
     // pdp, motor power, motor current, angle indicator, clean up dashboard
     autoDashboard = Preferences.getInt("Auto", 0);
-    double rawValue = ultrasonic.getValue();
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
     currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
     // putting variables on the Smart Dashboard
-    SmartDashboard.putNumber("autoRead", Auto); // input an Auto case
-    SmartDashboard.putNumber("ultrasonic", rawValue); // put the value of the ultrasonic sensor on the Smart Dashboard
     SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart
                                                              // Dashboard
     SmartDashboard.putNumber("leftEncoder", leftEncoderPosition); // put the value of the left sensor on the Smart

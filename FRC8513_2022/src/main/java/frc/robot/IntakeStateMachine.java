@@ -8,20 +8,23 @@ public class IntakeStateMachine {
 
   private Rev2mDistanceSensor upperIntakeSensor;
   private Rev2mDistanceSensor lowerIntakeSensor;
-  int intakeState;
+  public int intakeState;
   double upperSensorDistance;
   double lowerSensorDistance;
-  int upperIntakeSensorTHold = 125;
-  int lowerIntakeSensorTHold = 125;
+  int upperIntakeSensorTHold = 15;
+  int lowerIntakeSensorTHold = 15;
   Robot thisRobot;
 
   public IntakeStateMachine(Robot thisRobotParameter) {
     thisRobot = thisRobotParameter;
+    intakeInit();
   }
 
   public void intakeInit() {
     upperIntakeSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lowerIntakeSensor = new Rev2mDistanceSensor(Port.kMXP);
+    upperIntakeSensor.setAutomaticMode(true);
+    lowerIntakeSensor.setAutomaticMode(true);
   }
 
   public void setState(int wantedState) {
@@ -30,14 +33,18 @@ public class IntakeStateMachine {
 
   public void updateState()
   {
-    try { //to avoid getting stuck in case 0 when the sensors are not hooked up or they do not see a ball
+    /*try { //to avoid getting stuck in case 0 when the sensors are not hooked up or they do not see a ball
       upperSensorDistance=upperIntakeSensor.GetRange();
       lowerSensorDistance=lowerIntakeSensor.GetRange();
     }
     catch(Exception e) {
       upperSensorDistance=-1;
       lowerSensorDistance=-1;
-    }
+    }*/
+    upperSensorDistance=upperIntakeSensor.getRange();
+    lowerSensorDistance=lowerIntakeSensor.getRange();
+    SmartDashboard.putNumber("upperIntakeSensor", upperSensorDistance);
+    SmartDashboard.putNumber("lowerIntakeSensor", lowerSensorDistance);
     switch(intakeState){
     case 0:
     break;
@@ -92,7 +99,7 @@ public class IntakeStateMachine {
         intakeState=4;
       }
     break;
-    case 4: //lower elevators on
+    case 4: //lower elevator on
      thisRobot.lowerMotorPower=1;
      thisRobot.upperMotorPower=0;
      thisRobot.flywheelMotorPower=0;
@@ -110,8 +117,8 @@ public class IntakeStateMachine {
       }
     break;
     case 5: //forced intake state
-      thisRobot.lowerMotorPower=5;
-      thisRobot.upperMotorPower=5;
+      thisRobot.lowerMotorPower=1;
+      thisRobot.upperMotorPower=1;
       thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonReleased(5))
       {
@@ -119,7 +126,7 @@ public class IntakeStateMachine {
       }
     break;
     case 6: //manually shoot
-      thisRobot.lowerMotorPower=0;
+      thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=1;
       thisRobot.flywheelMotorPower=1;
       if(thisRobot.joystick.getRawButtonReleased(6))
@@ -138,17 +145,17 @@ public class IntakeStateMachine {
       //add automatic code once color sensor is set up
       break;
     case 8: //shoot in 
-      thisRobot.lowerMotorPower=0;
+      thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotorPower=3;
+      thisRobot.flywheelMotorPower=1;
+      break;
     case 9: //flywheel
       thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=0;
       thisRobot.flywheelMotorPower=0;
-    default:
-    {   
+      break;
+    default: 
       intakeState=1;
-    }
     break;
   }
   SmartDashboard.putNumber("intake state", intakeState);
