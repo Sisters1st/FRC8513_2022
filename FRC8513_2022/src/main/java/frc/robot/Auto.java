@@ -58,6 +58,7 @@ public class Auto {
         if (thisRobot.autoActionIsDone) {
             thisRobot.autoStep++;
             thisRobot.autoActionIsDone = false;
+            thisRobot.tHoldCounter=0;
         }
         thisRobot.intakeStateController.updateState();
         thisRobot.intakeStateController.updateMotorPower();
@@ -70,7 +71,7 @@ public class Auto {
             case 0: // default
                 thisRobot.m_myRobot.stopMotor();
                 break;
-            case 1: // turn 90 degrees to the right with PID
+            case 1: // turn a certain amount of degrees to the right with PID
                 controllerOutput = thisRobot.turnPID.calculate(thisRobot.currentAngle, thisRobot.autoGoalAngle);
                 goalMotorSpeed = MathUtil.clamp(controllerOutput, -1, 1);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed, -goalMotorSpeed);
@@ -115,6 +116,9 @@ public class Auto {
         thisRobot.leftEncoder.setPosition(0);
         thisRobot.rightEncoder.setPosition(0);
         thisRobot.ahrs.reset();
+        thisRobot.turnPID.reset();
+        thisRobot.straightPID.reset();
+        thisRobot.distancePID.reset();
     }
 
     public void driveForward() {
@@ -540,53 +544,53 @@ public void IntakeStraightTurnStraightShoot2()
     switch ((int) thisRobot.autoStep) {
         case 0: //turn intake on
             thisRobot.intakeStateController.intakeState=3;
-            SmartDashboard.putNumber("case 0", 0);
+            SmartDashboard.putNumber("0", 0);
             thisRobot.autoStep++;
             break;
         case 1: //drive forward
             thisRobot.autoAction = 2;
             resetSensors();
             thisRobot.autoGoalDistance = 2;
-            SmartDashboard.putNumber("case 1", 1);
+            SmartDashboard.putNumber("1", 1);
             thisRobot.autoStep++;
             break;
-        case 2: //setting our current time
-             SmartDashboard.putNumber("case 2", 2);
-            /*thisRobot.autoStartTime = System.currentTimeMillis();
-            SmartDashboard.putNumber("case 2", 2);
-            thisRobot.autoStep++;*/
+        case 2: //waiting
+             SmartDashboard.putNumber("2", 2);
             break;
         case 3: //turn 180 degrees
-            thisRobot.autoAction = 2;
-            resetSensors();
-            thisRobot.autoGoalAngle = 180;
-            SmartDashboard.putNumber("case 4", 4);
-            thisRobot.autoStep++;
-            break;
-        case 4: //drive forward
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalDistance = 2;
-            SmartDashboard.putNumber("case 5", 5);
+            thisRobot.autoGoalAngle = 180;
+            SmartDashboard.putNumber("3", 3);
             thisRobot.autoStep++;
             break;
-        case 5:
-            thisRobot.intakeStateController.intakeState=8;
-            SmartDashboard.putNumber("case 6", 6);
+        case 4://waiting
+        SmartDashboard.putNumber("4", 4);
+            break;
+        case 5: //drive forward
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 2;
+            SmartDashboard.putNumber("5", 5);
             thisRobot.autoStep++;
             break;
         case 6:
-            thisRobot.intakeStateController.intakeState=1;
-            SmartDashboard.putNumber("case 7", 7);
+            thisRobot.intakeStateController.intakeState=8;
+            SmartDashboard.putNumber("6", 6);
             thisRobot.autoStep++;
             break;
         case 7:
-        //wait for robot to finish driving backward
-        SmartDashboard.putNumber("case 8", 8);
-        break;
+            thisRobot.intakeStateController.intakeState=1;
+            SmartDashboard.putNumber("7", 7);
+            thisRobot.autoStep++;
+            break;
         case 8:
+        //wait for robot to finish driving backward
+        SmartDashboard.putNumber("8", 8);
+        break;
+        case 9:
         thisRobot.autoAction = 0;
-        SmartDashboard.putNumber("case 9", 9);
+        SmartDashboard.putNumber("9", 9);
         break;
         }
 }

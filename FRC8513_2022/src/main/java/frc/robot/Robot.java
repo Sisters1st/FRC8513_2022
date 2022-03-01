@@ -163,6 +163,7 @@ public class Robot extends TimedRobot {
                                                               // Dashboard
     SmartDashboard.putNumber("autoDashboard", autoDashboard); // put the value of the autoDashboard on the Smart
                                                               // Dashboard
+    SmartDashboard.putNumber("autoTHoldCounter", tHoldCounter);
   }
 
   /** This function is run once at the beginning of each autonomous mode. */

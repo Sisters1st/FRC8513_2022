@@ -148,6 +148,7 @@ public class IntakeStateMachine {
       thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=1;
       thisRobot.flywheelMotorPower=1;
+      SmartDashboard.putNumber("in here", 0);
       break;
     case 9: //flywheel
       thisRobot.lowerMotorPower=1;
