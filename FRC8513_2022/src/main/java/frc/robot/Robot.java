@@ -71,9 +71,9 @@ public class Robot extends TimedRobot {
   public double autoGoalDistance;
   public double autoDistanceTHold = .05;
   public double autoGoalSpeed;
-  public double autoStartTime=0;
+  public double autoStartTime = 0;
   // turn PID variables
-  double kP_turn = .018;
+  double kP_turn = .002;
   double kI_turn = 0.01;
   double kD_turn = 0.002;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
@@ -100,6 +100,7 @@ public class Robot extends TimedRobot {
   public frc.robot.Auto autoController = new frc.robot.Auto(this);
   public frc.robot.Teleop teleopController = new frc.robot.Teleop(this);
   public frc.robot.IntakeStateMachine intakeStateController = new frc.robot.IntakeStateMachine(this);
+
   public boolean getTriggerPressed() {
     return autoActionIsDone;
 
@@ -151,7 +152,9 @@ public class Robot extends TimedRobot {
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
-    currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
+    //currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
+    currentPosition = rightEncoderPosition;
+    turnPID.setIntegratorRange(-.5, .5); //clamp more
     // putting variables on the Smart Dashboard
     SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart
                                                              // Dashboard

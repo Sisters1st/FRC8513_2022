@@ -76,6 +76,10 @@ public class IntakeStateMachine {
       {
         intakeState=9;
       }
+      if(thisRobot.joystick.getRawButtonPressed(7))
+      {
+        intakeState=8;
+      }
     break;
     case 2: //both elevators on (dump)
       thisRobot.lowerMotorPower=1;

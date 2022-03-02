@@ -1,5 +1,56 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="in here" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="219" y="0"/>
+	</widget>
+	<widget field="9" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="126" y="545"/>
+	</widget>
+	<widget field="8" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="126" y="525"/>
+	</widget>
+	<widget field="7" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="126" y="505"/>
+	</widget>
+	<widget field="6" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="126" y="95"/>
+	</widget>
+	<widget field="5" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="126" y="0"/>
+	</widget>
+	<widget field="4" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="33" y="0"/>
+	</widget>
+	<widget field="3" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="545"/>
+	</widget>
+	<widget field="2" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="525"/>
+	</widget>
+	<widget field="1" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="505"/>
+	</widget>
+	<widget field="0" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="95"/>
+	</widget>
+	<widget field="autoTHoldCounter" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="846" y="400"/>
+	</widget>
+	<widget field="autoStep" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="879" y="443"/>
+	</widget>
+	<widget field="driveStraightMotorDelta" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="485"/>
+	</widget>
+	<widget field="autoStartingAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="465"/>
+	</widget>
+	<widget field="lowerIntakeSensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="445"/>
+	</widget>
+	<widget field="upperIntakeSensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="425"/>
+	</widget>
 	<widget field="flywheelMotorPower" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="385"/>
 	</widget>
@@ -10,7 +61,7 @@
 		<location x="0" y="115"/>
 	</widget>
 	<widget field="intake state" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="95"/>
+		<location x="865" y="464"/>
 	</widget>
 	<widget field="linearJoystick" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="740" y="215"/>
@@ -23,10 +74,10 @@
 		<height>21</height>
 	</widget>
 	<widget field="Joystick Movement" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="204" y="404"/>
+		<location x="207" y="401"/>
 	</widget>
 	<widget field="autoDashboard" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="740" y="184"/>
+		<location x="852" y="424"/>
 	</widget>
 	<widget field="autoGoalAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="585" y="29"/>
@@ -95,39 +146,84 @@
 </dashboard>
 <live-window>
 	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<widget field="navX-Sensor[4]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+		<widget field="PIDController[2]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
 			<location x="0" y="0"/>
 			<height>0</height>
 			<width>0</width>
 		</widget>
-		<widget field="navX-Sensor[4]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+		<widget field="PIDController[2]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
 			<location x="0" y="0"/>
 			<height>0</height>
 			<width>0</width>
 		</widget>
-		<widget field="PIDController[3]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
-			<location x="6" y="15"/>
-			<height>149</height>
-			<width>137</width>
+		<widget field="Encoder[1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
 		</widget>
-		<widget field="AnalogInput[0]" type="Analog Input" class="edu.wpi.first.smartdashboard.livewindow.elements.SingleNumberDisplay">
-			<location x="6" y="164"/>
-			<height>19</height>
-			<width>137</width>
+		<widget field="Encoder[1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="AnalogGyro[0]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="AnalogGyro[0]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="MotorControllerGroup[2]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="MotorControllerGroup[2]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="MotorControllerGroup[1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="MotorControllerGroup[1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Encoder[0]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Encoder[0]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
 		</widget>
 		<widget field="PIDController[1]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
-			<location x="6" y="183"/>
+			<location x="6" y="15"/>
 			<height>149</height>
-			<width>137</width>
+			<width>250</width>
 		</widget>
-		<widget field="PIDController[2]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
-			<location x="6" y="332"/>
+		<widget field="navX-Sensor[4]" type="Gyro" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="6" y="164"/>
+			<height>150</height>
+			<width>250</width>
+		</widget>
+		<widget field="PIDController[3]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="6" y="314"/>
 			<height>149</height>
-			<width>137</width>
+			<width>250</width>
 		</widget>
 		<location x="0" y="0"/>
-		<width>149</width>
-		<height>487</height>
+		<width>262</width>
+		<height>469</height>
 	</widget>
 </live-window>
 </xml>
