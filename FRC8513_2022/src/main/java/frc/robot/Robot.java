@@ -73,9 +73,9 @@ public class Robot extends TimedRobot {
   public double autoGoalSpeed;
   public double autoStartTime = 0;
   // turn PID variables
-  double kP_turn = .002;
+  double kP_turn = .005;
   double kI_turn = 0.01;
-  double kD_turn = 0.002;
+  double kD_turn = 0;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
   // straight PID variables
   double kP_straight = 1;
@@ -154,7 +154,7 @@ public class Robot extends TimedRobot {
     rightEncoderPosition = rightEncoder.getPosition();
     //currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
     currentPosition = rightEncoderPosition;
-    turnPID.setIntegratorRange(-.5, .5); //clamp more
+    turnPID.setIntegratorRange(-.3, .3); //clamp more
     // putting variables on the Smart Dashboard
     SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart
                                                              // Dashboard
