@@ -34,6 +34,7 @@ import com.revrobotics.SparkMaxRelativeEncoder.Type;
 public class Robot extends TimedRobot {
   public DifferentialDrive m_myRobot;
   public Joystick joystick;
+  public Joystick joystickBlue;
   // initiallizing motors
   public static final int leftMotorID1 = 4;
   public static final int leftMotorID2 = 5;

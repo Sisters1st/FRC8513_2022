@@ -25,8 +25,8 @@ public class Teleop {
     int linearJoystick = Preferences.getInt("linearJoystick", 0);
     SmartDashboard.putNumber("linearJoystick", linearJoystick); // put the value of the autoDashboard on the Smart
     int arcadeDrive = Preferences.getInt("arcadeDrive", 0);
-    leftJoy = -thisRobot.joystick.getY();
-    rightJoy = -thisRobot.joystick.getRawAxis(5);
+    leftJoy = -thisRobot.joystickBlue.getY();
+    rightJoy = -thisRobot.joystickBlue.getRawAxis(5);
     switch (linearJoystick) {
       case 0:
         squaringController();
@@ -42,7 +42,7 @@ public class Teleop {
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
         break;
       case 1:
-        thisRobot.m_myRobot.arcadeDrive(-thisRobot.joystick.getY(), thisRobot.joystick.getRawAxis(4));
+        thisRobot.m_myRobot.arcadeDrive(-thisRobot.joystickBlue.getY(), thisRobot.joystickBlue.getRawAxis(4));
         // arcade drive
         break;
       default:

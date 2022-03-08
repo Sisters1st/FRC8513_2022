@@ -4,49 +4,10 @@
 		<location x="537" y="459"/>
 	</widget>
 	<widget field="autoDistanceError" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="625"/>
+		<location x="1" y="520"/>
 	</widget>
 	<widget field="autoRotationError" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="605"/>
-	</widget>
-	<widget field="case 3" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="585"/>
-	</widget>
-	<widget field="case 2" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="565"/>
-	</widget>
-	<widget field="in here" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="219" y="0"/>
-	</widget>
-	<widget field="9" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="126" y="545"/>
-	</widget>
-	<widget field="8" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="126" y="525"/>
-	</widget>
-	<widget field="7" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="126" y="505"/>
-	</widget>
-	<widget field="6" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="126" y="95"/>
-	</widget>
-	<widget field="5" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="126" y="0"/>
-	</widget>
-	<widget field="4" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="33" y="0"/>
-	</widget>
-	<widget field="3" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="545"/>
-	</widget>
-	<widget field="2" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="525"/>
-	</widget>
-	<widget field="1" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="505"/>
-	</widget>
-	<widget field="0" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="95"/>
+		<location x="2" y="504"/>
 	</widget>
 	<widget field="autoTHoldCounter" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="846" y="400"/>
@@ -160,5 +121,43 @@
 	</widget>
 </dashboard>
 <live-window>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="PIDController[3]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="6" y="15"/>
+			<height>149</height>
+			<width>250</width>
+		</widget>
+		<widget field="PIDController[1]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="6" y="164"/>
+			<height>149</height>
+			<width>250</width>
+		</widget>
+		<widget field="navX-Sensor[4]" type="Gyro" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="6" y="313"/>
+			<height>150</height>
+			<width>250</width>
+		</widget>
+		<widget field="PIDController[2]" type="PIDController" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="6" y="463"/>
+			<height>149</height>
+			<width>250</width>
+		</widget>
+		<location x="0" y="0"/>
+		<width>262</width>
+		<height>618</height>
+	</widget>
 </live-window>
+	<hidden field="0"/>
+	<hidden field="1"/>
+	<hidden field="2"/>
+	<hidden field="3"/>
+	<hidden field="4"/>
+	<hidden field="5"/>
+	<hidden field="6"/>
+	<hidden field="7"/>
+	<hidden field="8"/>
+	<hidden field="9"/>
+	<hidden field="in here"/>
+	<hidden field="case 2"/>
+	<hidden field="case 3"/>
 </xml>
