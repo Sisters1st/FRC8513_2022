@@ -142,6 +142,7 @@ public class Robot extends TimedRobot {
     m_right = new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
     m_myRobot = new DifferentialDrive(m_left, m_right);
     joystick = new Joystick(0);
+    joystick = new Joystick(1);
     m_right.setInverted(true);
   }
 

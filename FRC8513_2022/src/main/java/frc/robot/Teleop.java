@@ -36,7 +36,8 @@ public class Teleop {
         break;
       default:
         squaringController();
-    }
+    
+      }
     switch (arcadeDrive) {
       case 0:
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
