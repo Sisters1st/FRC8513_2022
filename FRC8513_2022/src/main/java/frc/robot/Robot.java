@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
   public double autoDistanceTHold = .05;
   public double autoGoalSpeed;
   public double autoStartTime = 0;
+  public double autoWaitTime = 0;
   // turn PID variables
   double kP_turn = .005;
   double kI_turn = 0.01;
@@ -150,7 +151,6 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     // Smart Dashboard variables
     // pdp, motor power, motor current, angle indicator, clean up dashboard
-    autoDashboard = Preferences.getInt("Auto", 0);
     currentAngle = ahrs.getAngle();
     leftEncoderPosition = leftEncoder.getPosition();
     rightEncoderPosition = rightEncoder.getPosition();
