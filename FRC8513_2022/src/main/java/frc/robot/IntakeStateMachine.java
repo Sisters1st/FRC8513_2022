@@ -74,17 +74,13 @@ public class IntakeStateMachine {
       }
       if(thisRobot.joystick.getRawButtonPressed(4))
       {
-        intakeState=9;
-      }
-      if(thisRobot.joystick.getRawButtonPressed(7))
-      {
-        intakeState=8;
+        intakeState=1;
       }
     break;
-    case 2: //both elevators on (dump)
-      thisRobot.lowerMotorPower=1;
-      thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotorPower=1;
+    case 2: //outskr just lower
+      thisRobot.lowerMotorPower=-1;
+      thisRobot.upperMotorPower=0;
+      thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonReleased(2))
       {
         intakeState=1;
@@ -111,9 +107,9 @@ public class IntakeStateMachine {
       {
         intakeState=1;
       }
-      if(thisRobot.joystick.getRawButtonPressed(5))
+      if(thisRobot.joystick.getRawButtonPressed(6))
       {
-        intakeState=2;
+        intakeState=6;
       }
       if(lowerSensorDistance<lowerIntakeSensorTHold)
       {
@@ -132,7 +128,7 @@ public class IntakeStateMachine {
     case 6: //manually shoot
       thisRobot.lowerMotorPower=1;
       thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotorPower=1;
+      thisRobot.flywheelMotorPower=-1;
       if(thisRobot.joystick.getRawButtonReleased(6))
       {
         intakeState=1;
@@ -147,17 +143,6 @@ public class IntakeStateMachine {
         intakeState=1;
       }
       //add automatic code once color sensor is set up
-      break;
-    case 8: //shoot in 
-      thisRobot.lowerMotorPower=1;
-      thisRobot.upperMotorPower=1;
-      thisRobot.flywheelMotorPower=1;
-      SmartDashboard.putNumber("in here", 0);
-      break;
-    case 9: //flywheel
-      thisRobot.lowerMotorPower=1;
-      thisRobot.upperMotorPower=0;
-      thisRobot.flywheelMotorPower=0;
       break;
     default: 
       intakeState=1;

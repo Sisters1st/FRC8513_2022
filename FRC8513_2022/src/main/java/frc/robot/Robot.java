@@ -65,19 +65,19 @@ public class Robot extends TimedRobot {
   public double autoAction = 0;
   public double autoStep = 0;
   public int autoDashboard = 0;
-  public double autoAngleTHold = 1.5;
+  public double autoAngleTHold = 2;
   public double tHoldCounter;
   public double tHoldCounterTHold = 20;
   public boolean autoActionIsDone = false;
   public double autoGoalDistance;
-  public double autoDistanceTHold = .05;
+  public double autoDistanceTHold = .15;
   public double autoGoalSpeed;
   public double autoStartTime = 0;
   public double autoWaitTime = 0;
   // turn PID variables
-  double kP_turn = .005;
-  double kI_turn = 0.01;
-  double kD_turn = 0;
+  double kP_turn = .06;
+  double kI_turn = 0.0001;
+  double kD_turn = 0.004;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
   // straight PID variables
   double kP_straight = 1;
@@ -169,6 +169,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("autoDashboard", autoDashboard); // put the value of the autoDashboard on the Smart
                                                               // Dashboard
     SmartDashboard.putNumber("autoTHoldCounter", tHoldCounter);
+    SmartDashboard.putNumber("Left Motor Power", m_leftMotor1.get());
+    SmartDashboard.putNumber("Right Motor Power", m_rightMotor1.get());
+ 
   }
 
   /** This function is run once at the beginning of each autonomous mode. */

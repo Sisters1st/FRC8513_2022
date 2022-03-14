@@ -65,8 +65,7 @@ public class Teleop {
     } else {
       rightPow = -rightJoy * rightJoy;
     }
-    SmartDashboard.putNumber("Left Motor Power", leftPow);
-    SmartDashboard.putNumber("Right Motor Power", rightPow);
+    
   }
 
   public void linearController() {
