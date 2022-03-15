@@ -61,6 +61,9 @@ public class Auto {
             case 7:
                 grabSecondScoreGrabThirdScore();
                 break;
+            case 8:
+                scoreFirstGrabTwoScore();
+                break;
             default:
                 thisRobot.autoDashboard = 0;
         }
@@ -101,8 +104,7 @@ public class Auto {
                 goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.6, .6);
                 controllerOutput = thisRobot.straightPID
                         .calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
-                // motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
-                motorDelta = 0;
+                motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
                 thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
                 if (Math.abs(thisRobot.autoGoalDistance - thisRobot.currentPosition) < thisRobot.autoDistanceTHold) {
                     thisRobot.tHoldCounter++;
@@ -292,16 +294,16 @@ public class Auto {
             case 1: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 2;
+                thisRobot.autoGoalDistance = 3;
                 thisRobot.autoStep++;
                 break;
             case 2: // waiting
                 break;
 
-            case 3: //drive backward
+            case 3: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = -5;
+                thisRobot.autoGoalDistance = -4;
                 thisRobot.autoStep++;
                 break;
             case 4:// waiting
@@ -338,7 +340,7 @@ public class Auto {
 
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = -130;
+                thisRobot.autoGoalAngle = -90;
                 thisRobot.autoStep++;
                 break;
             case 11: // waiting
@@ -350,30 +352,30 @@ public class Auto {
             case 13: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 6.5;
+                thisRobot.autoGoalDistance = 5;
                 thisRobot.autoStep++;
                 break;
             case 14: // waiting
                 break;
             case 15: // drive backward
-            thisRobot.autoAction = 2;
-            resetSensors();
-            thisRobot.autoGoalDistance = -5.5;
-            thisRobot.autoStep++;
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = -3;
+                thisRobot.autoStep++;
                 break;
             case 16:// waiting
                 break;
             case 17: // turn 180
-            thisRobot.autoAction = 1;
-            resetSensors();
-            thisRobot.autoGoalAngle = 130;
-            thisRobot.autoStep++;
+                thisRobot.autoAction = 1;
+                resetSensors();
+                thisRobot.autoGoalAngle = 130;
+                thisRobot.autoStep++;
                 break;
             case 18: // waiting
                 break;
             case 19:
-                thisRobot.autoStep=21;
-            
+                thisRobot.autoStep = 21;
+
             case 21:// turn on shooter
                 thisRobot.autoAction = 0;
                 thisRobot.intakeStateController.intakeState = 6;
@@ -404,4 +406,95 @@ public class Auto {
                 break;
         }
     }
+
+public void scoreFirstGrabTwoScore() {
+    switch ((int) thisRobot.autoStep) {
+        case 0: //shoot
+            thisRobot.autoAction = 0;
+            thisRobot.intakeStateController.intakeState = 6;
+            thisRobot.autoStep++;
+            break;
+        case 1: // set timer
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 2: // checking if our elapsed time is greater than out threshold, if it is we move
+                 // on to the next case, otherwise, we wait
+            if (System.currentTimeMillis() - thisRobot.autoStartTime > 500) {
+                thisRobot.autoStep++;
+            }
+            break;
+        case 3: //turn 
+        /*
+        time if turning first then driving or if driving then turning and driving again is faster 
+        */ 
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = 180;
+            thisRobot.autoStep++;
+            break;
+        case 4://waiting
+            break;
+        case 5: //drive forward
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 3;
+            thisRobot.intakeStateController.intakeState = 3;
+            thisRobot.autoStep++;
+            break;
+        case 6://waiting
+            break;
+        case 7://turn
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = 113;
+            thisRobot.autoStep++;
+            break;
+        case 8://waiting
+            break;
+        case 9://drive forward
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 7;
+            thisRobot.autoStep++;
+            break;
+        case 10://waiting
+            break;
+        case 11: // turn
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = 125;
+            thisRobot.autoStep++;
+            break;
+        case 12: //waiting
+            break;
+        case 13: //drive forward
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 3.8;
+            thisRobot.autoStep++;
+            break;
+        case 14://waiting
+            break;
+        case 15: //shoot
+            thisRobot.autoAction = 0;
+            thisRobot.intakeStateController.intakeState = 6;
+            thisRobot.autoStep++;
+            break;
+        case 16:// set timer
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 17: // checking if our elapsed time is greater than out threshold, if it is we move
+                 // on to the next case, otherwise, we wait
+            if (System.currentTimeMillis() - thisRobot.autoStartTime > 3000) {
+                thisRobot.autoStep++;
+            }
+            break;
+        case 18:
+            thisRobot.autoAction = 0;
+            thisRobot.intakeStateController.intakeState = 1;
+            break;
+}
+}
 }

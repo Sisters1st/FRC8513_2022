@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
   public double autoAction = 0;
   public double autoStep = 0;
   public int autoDashboard = 0;
-  public double autoAngleTHold = 2;
+  public double autoAngleTHold = 4;
   public double tHoldCounter;
   public double tHoldCounterTHold = 20;
   public boolean autoActionIsDone = false;
