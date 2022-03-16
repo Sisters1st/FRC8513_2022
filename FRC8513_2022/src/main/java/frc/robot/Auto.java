@@ -101,7 +101,7 @@ public class Auto {
             case 2: // drive straight to a distance with PID
                 double distanceControllerOutput = thisRobot.distancePID.calculate(
                         thisRobot.currentPosition, thisRobot.autoGoalDistance);
-                goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.6, .6);
+                goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.65, .65);
                 controllerOutput = thisRobot.straightPID
                         .calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
                 motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
@@ -303,7 +303,7 @@ public class Auto {
             case 3: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = -4;
+                thisRobot.autoGoalDistance = -2.5;
                 thisRobot.autoStep++;
                 break;
             case 4:// waiting
@@ -352,7 +352,7 @@ public class Auto {
             case 13: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 5;
+                thisRobot.autoGoalDistance = 5.5;
                 thisRobot.autoStep++;
                 break;
             case 14: // waiting
@@ -360,7 +360,7 @@ public class Auto {
             case 15: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = -3;
+                thisRobot.autoGoalDistance = -4;
                 thisRobot.autoStep++;
                 break;
             case 16:// waiting
@@ -368,7 +368,7 @@ public class Auto {
             case 17: // turn 180
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = 130;
+                thisRobot.autoGoalAngle = 110;
                 thisRobot.autoStep++;
                 break;
             case 18: // waiting
