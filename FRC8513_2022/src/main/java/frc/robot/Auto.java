@@ -187,7 +187,7 @@ public class Auto {
             default:
                 thisRobot.autoAction = 0;
         }
-    }
+    } 
 
     public void shootReverse() {
         switch ((int) thisRobot.autoStep) {
@@ -244,7 +244,6 @@ public class Auto {
                 thisRobot.autoStep++;
                 break;
             case 4:// waiting
-                SmartDashboard.putNumber("4", 4);
                 break;
             case 5: // drive forward
                 thisRobot.autoAction = 2;
@@ -340,7 +339,7 @@ public class Auto {
 
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = -90;
+                thisRobot.autoGoalAngle = -85;
                 thisRobot.autoStep++;
                 break;
             case 11: // waiting
@@ -352,7 +351,7 @@ public class Auto {
             case 13: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 5.5;
+                thisRobot.autoGoalDistance = 6;
                 thisRobot.autoStep++;
                 break;
             case 14: // waiting

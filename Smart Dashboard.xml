@@ -1,15 +1,87 @@
 <xml version="1.0">
 <dashboard>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="1094" y="71"/>
+		<location x="1006" y="363"/>
+		<property name="Text" value="Encoders"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1288" y="307"/>
+		<property name="Text" value="Driving Info:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1279" y="203"/>
+		<property name="Text" value="Angle Info:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="992" y="203"/>
+		<property name="Text" value="Motor Powers:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1229" y="126"/>
+		<property name="Text" value="Auto 6 = wait a certain amout of time"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1229" y="93"/>
+		<property name="Text" value="Auto 4 = shoot and reverse"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1260" y="9"/>
+		<property name="Text" value="Autonomous:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1028" y="70"/>
+		<property name="Text" value="right joystick = left + right "/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1028" y="49"/>
+		<property name="Text" value="left joystick = forward + backward"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1043" y="28"/>
+		<property name="Text" value="right = driving"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="863" y="131"/>
+		<property name="Text" value="RB = shoot"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="864" y="112"/>
+		<property name="Text" value="Y = manually turn off intake"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="865" y="93"/>
+		<property name="Text" value="X = outtake both elevators"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="866" y="74"/>
+		<property name="Text" value="B = outtake lower elevator"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="868" y="54"/>
+		<property name="Text" value="A = both intakes on"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="881" y="34"/>
+		<property name="Text" value="left = intaking "/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="978" y="11"/>
+		<property name="Text" value="Teleop:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1229" y="77"/>
+		<property name="Text" value="Auto 3 = turn 180"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="1228" y="162"/>
 		<property name="Text" value="Auto 8 = scoreFirstGrabTwoScore"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="1092" y="53"/>
+		<location x="1229" y="144"/>
 		<property name="Text" value="Auto 7 =grabSecondScoreGrabThirdScore (face away from hub)"/>
 	</static-widget>
 	<widget field="4" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="93"/>
+		<location x="59" y="98"/>
 	</widget>
 	<widget field="driveStraightMotorDelta" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="0" y="73"/>
@@ -21,77 +93,78 @@
 		<location x="0" y="33"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="1093" y="38"/>
+		<location x="1228" y="110"/>
 		<property name="Text" value="Auto 5 = intake, straight, turn, straight, shoot"/>
 	</static-widget>
 	<widget field="autoDistanceError" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="580" y="146"/>
+		<location x="1223" y="321"/>
 	</widget>
 	<widget field="autoRotationError" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="785" y="60"/>
+		<location x="1218" y="265"/>
 	</widget>
 	<widget field="autoTHoldCounter" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="846" y="400"/>
+		<location x="341" y="300"/>
 	</widget>
 	<widget field="autoStep" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="879" y="443"/>
+		<location x="369" y="361"/>
 	</widget>
 	<widget field="lowerIntakeSensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="564" y="83"/>
+		<location x="287" y="90"/>
 	</widget>
 	<widget field="upperIntakeSensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="566" y="104"/>
+		<location x="297" y="113"/>
+		<height>27</height>
 	</widget>
 	<widget field="flywheelMotorPower" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1134" y="114"/>
+		<location x="928" y="311"/>
 	</widget>
 	<widget field="upperMotorPower" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1144" y="156"/>
+		<location x="937" y="287"/>
 	</widget>
 	<widget field="lowerMotorPower" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1146" y="134"/>
+		<location x="938" y="265"/>
 	</widget>
 	<widget field="intake state" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="865" y="464"/>
+		<location x="394" y="399"/>
 	</widget>
 	<widget field="linearJoystick" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="740" y="215"/>
+		<location x="535" y="231"/>
 	</widget>
 	<widget field="Right Motor Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1147" y="203"/>
+		<location x="933" y="242"/>
 	</widget>
 	<widget field="Left Motor Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="1153" y="178"/>
+		<location x="940" y="218"/>
 		<height>21</height>
 	</widget>
 	<widget field="autoDashboard" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="852" y="424"/>
+		<location x="352" y="328"/>
 	</widget>
 	<widget field="autoGoalAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="798" y="40"/>
+		<location x="1232" y="242"/>
 	</widget>
 	<widget field="current angle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="802" y="19"/>
+		<location x="1236" y="219"/>
 	</widget>
 	<widget field="goalMotorSpeed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="779" y="152"/>
+		<location x="549" y="163"/>
 	</widget>
 	<widget field="ultrasonic" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="397" y="168"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="382" y="49"/>
-		<property name="Text" value="Auto0=stop"/>
+		<location x="1231" y="29"/>
+		<property name="Text" value="Auto 0=stop"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="359" y="31"/>
+		<location x="1203" y="60"/>
 		<width>161</width>
-		<property name="Text" value="Auto2=drive backward"/>
+		<property name="Text" value="Auto 2=drive backward"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="382" y="13"/>
-		<height>14</height>
-		<property name="Text" value="Auto1=drive forward"/>
+		<location x="1229" y="38"/>
+		<height>25</height>
+		<property name="Text" value="Auto 1=drive forward"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
 		<location x="40" y="155"/>
@@ -103,29 +176,19 @@
 		<location x="0" y="0"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
-		<location x="394" y="213"/>
+		<location x="40" y="394"/>
 		<height>142</height>
 	</static-widget>
 	<widget field="rightEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="597" y="62"/>
+		<location x="952" y="404"/>
 		<height>20</height>
 	</widget>
 	<widget field="leftEncoder" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="601" y="42"/>
+		<location x="958" y="381"/>
 	</widget>
 </dashboard>
 <live-window>
 	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<widget field="navX-Sensor[4]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
-			<location x="0" y="0"/>
-			<height>0</height>
-			<width>0</width>
-		</widget>
-		<widget field="navX-Sensor[4]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
-			<location x="0" y="0"/>
-			<height>0</height>
-			<width>0</width>
-		</widget>
 		<widget field="PIDController[3]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
 			<location x="0" y="0"/>
 			<height>0</height>
@@ -152,13 +215,23 @@
 			<width>0</width>
 		</widget>
 		<widget field="PIDController[2]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.PIDEditor">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="navX-Sensor[4]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="navX-Sensor[4]" type="Table" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
 			<location x="0" y="0"/>
 			<height>0</height>
 			<width>0</width>
 		</widget>
 		<location x="0" y="0"/>
-		<width>149</width>
-		<height>468</height>
+		<width>262</width>
+		<height>618</height>
 	</widget>
 </live-window>
 </xml>
