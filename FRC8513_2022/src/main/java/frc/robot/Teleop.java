@@ -88,8 +88,13 @@ public void controlClimber(){
     {
       thisRobot.m_climberMotor.set(1);
     }
-  if(thisRobot.joystick.POVreleased())
   if(thisRobot.joystick.getPOV()==180)
-  thisRobot.m_climberMotor.set(-1);58
+    {
+      thisRobot.m_climberMotor.set(-1);
+    }
+  if(thisRobot.joystick.getPOV()==-1)
+  {
+    thisRobot.m_climberMotor.set(0);
+  }
 }
 }
