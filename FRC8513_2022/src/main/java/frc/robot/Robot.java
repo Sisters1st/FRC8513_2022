@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
   public static final int lowerIntakeID = 9;
   public static final int upperIntakeID = 6;
   public static final int flywheelMotorID = 8;
+  public static final int climberMotorID = 7;
   // initiallizing Can Sparks to
   public CANSparkMax m_leftMotor1;
   public CANSparkMax m_leftMotor2;
@@ -51,6 +52,7 @@ public class Robot extends TimedRobot {
   public CANSparkMax m_lowerIntakeMotor;
   public CANSparkMax m_upperIntakeMotor;
   public CANSparkMax m_flywheelMotor;
+  public CANSparkMax m_climberMotor;
   // motor controller groups
   public MotorControllerGroup m_left;
   public MotorControllerGroup m_right;
@@ -70,7 +72,7 @@ public class Robot extends TimedRobot {
   public double tHoldCounterTHold = 20;
   public boolean autoActionIsDone = false;
   public double autoGoalDistance;
-  public double autoDistanceTHold = .15;
+  public double autoDistanceTHold = .2;
   public double autoGoalSpeed;
   public double autoStartTime = 0;
   public double autoWaitTime = 0;
@@ -125,6 +127,7 @@ public class Robot extends TimedRobot {
     m_lowerIntakeMotor = new CANSparkMax(lowerIntakeID, MotorType.kBrushed);
     m_upperIntakeMotor = new CANSparkMax(upperIntakeID, MotorType.kBrushed);
     m_flywheelMotor = new CANSparkMax(flywheelMotorID, MotorType.kBrushed);
+    m_climberMotor = new CANSparkMax(climberMotorID, MotorType.kBrushed);
     CameraServer.startAutomaticCapture();
     leftEncoder = m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
     rightEncoder = m_rightMotor1.getEncoder(Type.kQuadrature, 8192);

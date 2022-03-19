@@ -64,6 +64,9 @@ public class Auto {
             case 8:
                 scoreFirstGrabTwoScore();
                 break;
+            case 9:
+                IntakeStraightTurnStraightTurnShoot();
+                break;
             default:
                 thisRobot.autoDashboard = 0;
         }
@@ -223,7 +226,7 @@ public class Auto {
         }
     }
 
-    public void IntakeStraightTurnStraightShoot() {
+    public void IntakeStraightTurnStraightShoot() { //auto 5
         switch ((int) thisRobot.autoStep) {
             case 0: // turn intake on
                 thisRobot.intakeStateController.intakeState = 3;
@@ -232,7 +235,7 @@ public class Auto {
             case 1: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 2;
+                thisRobot.autoGoalDistance = 3;
                 thisRobot.autoStep++;
                 break;
             case 2: // waiting
@@ -248,14 +251,14 @@ public class Auto {
             case 5: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 5;
+                thisRobot.autoGoalDistance = 3;
                 thisRobot.autoStep++;
                 break;
             case 6: // waiting
                 break;
             case 7:// turn on shooter
                 thisRobot.autoAction = 0;
-                thisRobot.intakeStateController.intakeState = 8;
+                thisRobot.intakeStateController.intakeState = 6;
                 thisRobot.autoStep++;
                 break;
             case 8: // set timer
@@ -276,15 +279,13 @@ public class Auto {
                 thisRobot.intakeStateController.intakeState = 1;
                 thisRobot.autoStep++;
                 break;
-            case 11: // waiting
-                break;
-            case 12:
+            case 11:
                 thisRobot.autoAction = 0;
                 break;
         }
     }
 
-    public void grabSecondScoreGrabThirdScore() {
+    public void grabSecondScoreGrabThirdScore() { //auto 7
         switch ((int) thisRobot.autoStep) {
             case 0: // turn intake on
                 thisRobot.intakeStateController.intakeState = 3;
@@ -302,7 +303,7 @@ public class Auto {
             case 3: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = -2.5;
+                thisRobot.autoGoalDistance = -3;
                 thisRobot.autoStep++;
                 break;
             case 4:// waiting
@@ -335,11 +336,11 @@ public class Auto {
                     thisRobot.autoStep++;
                 }
                 break;
-            case 10: // turn 180 degrees
+            case 10: // turn 
 
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = -85;
+                thisRobot.autoGoalAngle = -90;
                 thisRobot.autoStep++;
                 break;
             case 11: // waiting
@@ -495,5 +496,71 @@ public void scoreFirstGrabTwoScore() {
             thisRobot.intakeStateController.intakeState = 1;
             break;
 }
+}
+public void IntakeStraightTurnStraightTurnShoot() { //auto 9
+    switch ((int) thisRobot.autoStep) {
+        case 0: // turn intake on
+            thisRobot.intakeStateController.intakeState = 3;
+            thisRobot.autoStep++;
+            break;
+        case 1: // drive forward
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 3.5;
+            thisRobot.autoStep++;
+            break;
+        case 2: // waiting
+            break;
+        case 3: // turn 180 degrees
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = -170;
+            thisRobot.autoStep++;
+            break;
+        case 4:// waiting
+            break;
+        case 5: // drive forward
+            thisRobot.autoAction = 2;
+            resetSensors();
+            thisRobot.autoGoalDistance = 3;
+            thisRobot.autoStep++;
+            break;
+        case 6: // waiting
+            break;
+        case 7:
+            thisRobot.autoAction = 1;
+            resetSensors();
+            thisRobot.autoGoalAngle = -30;
+            thisRobot.autoStep++;
+            break;
+        case 8://waiting
+            break;
+        case 9:// turn on shooter
+            thisRobot.autoAction = 0;
+            thisRobot.intakeStateController.intakeState = 6;
+            thisRobot.autoStep++;
+            break;
+        case 10: // set timer
+            thisRobot.autoStartTime = System.currentTimeMillis();
+            thisRobot.autoStep++;
+            break;
+        case 11: // checking if our elapsed time is greater than out threshold, if it is we move
+                // on to the next case, otherwise, we wait
+            /*
+             * System.out.println("current time" + System.currentTimeMillis()%10000);
+             * System.out.println("start time" + thisRobot.autoStartTime%10000);
+             */
+            if (System.currentTimeMillis() - thisRobot.autoStartTime > 3000) {
+                thisRobot.autoStep++;
+            }
+            break;
+        case 12: // stop
+            thisRobot.intakeStateController.intakeState = 1;
+            thisRobot.autoStep++;
+            break;
+        case 13:
+            thisRobot.autoAction = 0;
+            break;
+    }
 }
 }

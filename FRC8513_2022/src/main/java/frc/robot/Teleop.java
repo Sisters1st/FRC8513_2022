@@ -27,6 +27,7 @@ public class Teleop {
     int arcadeDrive = Preferences.getInt("arcadeDrive", 0);
     leftJoy = -thisRobot.joystickBlue.getY();
     rightJoy = -thisRobot.joystickBlue.getRawAxis(5);
+    controlClimber();
     switch (linearJoystick) {
       case 0:
         squaringController();
@@ -36,7 +37,6 @@ public class Teleop {
         break;
       default:
         squaringController();
-    
       }
     switch (arcadeDrive) {
       case 0:
@@ -83,4 +83,13 @@ public class Teleop {
     SmartDashboard.putNumber("Left Motor Power", leftPow);
     SmartDashboard.putNumber("Right Motor Power", rightPow);
   }
+public void controlClimber(){
+  if(thisRobot.joystick.getPOV()==0)
+    {
+      thisRobot.m_climberMotor.set(1);
+    }
+  if(thisRobot.joystick.POVreleased())
+  if(thisRobot.joystick.getPOV()==180)
+  thisRobot.m_climberMotor.set(-1);58
+}
 }
