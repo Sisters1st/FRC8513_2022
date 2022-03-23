@@ -25,8 +25,8 @@ public class Teleop {
     int linearJoystick = Preferences.getInt("linearJoystick", 0);
     SmartDashboard.putNumber("linearJoystick", linearJoystick); // put the value of the autoDashboard on the Smart
     int arcadeDrive = Preferences.getInt("arcadeDrive", 0);
-    leftJoy = -thisRobot.joystickBlue.getY();
-    rightJoy = -thisRobot.joystickBlue.getRawAxis(5);
+    leftJoy = -thisRobot.joystickBlue.getRawAxis(5);
+    rightJoy = -thisRobot.joystickBlue.getRawAxis(1);
     controlClimber();
     switch (linearJoystick) {
       case 0:
@@ -43,7 +43,7 @@ public class Teleop {
         thisRobot.m_myRobot.tankDrive(leftPow, rightPow); // tank drive
         break;
       case 1:
-        thisRobot.m_myRobot.arcadeDrive(-thisRobot.joystickBlue.getY(), thisRobot.joystickBlue.getRawAxis(4));
+        thisRobot.m_myRobot.arcadeDrive(thisRobot.joystickBlue.getRawAxis(4), -thisRobot.joystickBlue.getRawAxis(1));
         // arcade drive
         break;
       default:
@@ -93,8 +93,8 @@ public void controlClimber(){
       thisRobot.m_climberMotor.set(-1);
     }
   if(thisRobot.joystick.getPOV()==-1)
-  {
-    thisRobot.m_climberMotor.set(0);
-  }
+    {
+      thisRobot.m_climberMotor.set(0);
+    }
 }
 }

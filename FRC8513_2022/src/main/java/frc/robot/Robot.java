@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   public DifferentialDrive m_myRobot;
   public Joystick joystick;
   public Joystick joystickBlue;
-  // initiallizing motors
+  // initializing motors
   public static final int leftMotorID1 = 4;
   public static final int leftMotorID2 = 5;
   public static final int rightMotorID1 = 2;
@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
   public static final int upperIntakeID = 6;
   public static final int flywheelMotorID = 8;
   public static final int climberMotorID = 7;
-  // initiallizing Can Sparks to
+  // initializing Can Sparks to
   public CANSparkMax m_leftMotor1;
   public CANSparkMax m_leftMotor2;
   public CANSparkMax m_rightMotor1;

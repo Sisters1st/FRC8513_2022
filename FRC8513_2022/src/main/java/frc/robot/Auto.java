@@ -90,7 +90,7 @@ public class Auto {
             case 1: // turn a certain amount of degrees to the right with PID
                 controllerOutput = thisRobot.turnPID.calculate(thisRobot.currentAngle, thisRobot.autoGoalAngle);
                 goalMotorSpeed = MathUtil.clamp(controllerOutput, -.7, .7);
-                thisRobot.m_myRobot.tankDrive(goalMotorSpeed, -goalMotorSpeed);
+                thisRobot.m_myRobot.tankDrive(goalMotorSpeed, goalMotorSpeed);
                 // if error is less than a set value
                 if (Math.abs(thisRobot.autoGoalAngle - thisRobot.currentAngle) < thisRobot.autoAngleTHold) {
                     thisRobot.tHoldCounter++;
@@ -108,7 +108,7 @@ public class Auto {
                 controllerOutput = thisRobot.straightPID
                         .calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
                 motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
-                thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, goalMotorSpeed - motorDelta);
+                thisRobot.m_myRobot.tankDrive(goalMotorSpeed + motorDelta, -goalMotorSpeed + motorDelta);
                 if (Math.abs(thisRobot.autoGoalDistance - thisRobot.currentPosition) < thisRobot.autoDistanceTHold) {
                     thisRobot.tHoldCounter++;
                     if (thisRobot.tHoldCounter > thisRobot.tHoldCounterTHold) {
@@ -138,7 +138,7 @@ public class Auto {
         thisRobot.distancePID.reset();
     }
 
-    public void driveForward() {
+    public void driveForward() { // Auto 1
         switch ((int) thisRobot.autoStep) {
             case 0: // drive forward
                 thisRobot.autoAction = 2;
@@ -156,7 +156,7 @@ public class Auto {
         }
     }
 
-    public void driveBackwards() {
+    public void driveBackwards() { // Auto 2
         switch ((int) thisRobot.autoStep) {
             case 0: // drive backward
                 thisRobot.autoAction = 2;
@@ -174,12 +174,12 @@ public class Auto {
         }
     }
 
-    public void turn180() {
+    public void turn180() { // Auto 3
         switch ((int) thisRobot.autoStep) {
             case 0: // drive backward
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = 225;
+                thisRobot.autoGoalAngle = 180;
                 thisRobot.autoStep++;
                 break;
             case 1:
@@ -192,10 +192,10 @@ public class Auto {
         }
     } 
 
-    public void shootReverse() {
+    public void shootReverse() { // Auto 4
         switch ((int) thisRobot.autoStep) {
             case 0: // shoot
-                thisRobot.intakeStateController.intakeState = 8;
+                thisRobot.intakeStateController.intakeState = 6;
                 thisRobot.autoStep++;
                 break;
             case 1: // setting our current time
@@ -226,7 +226,7 @@ public class Auto {
         }
     }
 
-    public void IntakeStraightTurnStraightShoot() { //auto 5
+    public void IntakeStraightTurnStraightShoot() { // Auto 5
         switch ((int) thisRobot.autoStep) {
             case 0: // turn intake on
                 thisRobot.intakeStateController.intakeState = 3;
@@ -285,7 +285,7 @@ public class Auto {
         }
     }
 
-    public void grabSecondScoreGrabThirdScore() { //auto 7
+    public void grabSecondScoreGrabThirdScore() { // Auto 7
         switch ((int) thisRobot.autoStep) {
             case 0: // turn intake on
                 thisRobot.intakeStateController.intakeState = 3;
@@ -407,7 +407,7 @@ public class Auto {
         }
     }
 
-public void scoreFirstGrabTwoScore() {
+public void scoreFirstGrabTwoScore() { // Auto 8
     switch ((int) thisRobot.autoStep) {
         case 0: //shoot
             thisRobot.autoAction = 0;
@@ -447,7 +447,7 @@ public void scoreFirstGrabTwoScore() {
         case 7://turn
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalAngle = 113;
+            thisRobot.autoGoalAngle = 115;
             thisRobot.autoStep++;
             break;
         case 8://waiting
@@ -463,7 +463,7 @@ public void scoreFirstGrabTwoScore() {
         case 11: // turn
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalAngle = 125;
+            thisRobot.autoGoalAngle = 127;
             thisRobot.autoStep++;
             break;
         case 12: //waiting
@@ -497,7 +497,7 @@ public void scoreFirstGrabTwoScore() {
             break;
 }
 }
-public void IntakeStraightTurnStraightTurnShoot() { //auto 9
+public void IntakeStraightTurnStraightTurnShoot() { // Auto 9
     switch ((int) thisRobot.autoStep) {
         case 0: // turn intake on
             thisRobot.intakeStateController.intakeState = 3;

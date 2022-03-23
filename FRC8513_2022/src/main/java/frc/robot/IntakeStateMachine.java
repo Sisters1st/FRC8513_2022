@@ -72,16 +72,16 @@ public class IntakeStateMachine {
       {
         intakeState=7;
       }
-      if(thisRobot.joystick.getRawButtonPressed(4))
-      {
-        intakeState=1;
-      }
     break;
-    case 2: //outskr just lower
+    case 2: //outake just lower
       thisRobot.lowerMotorPower=-1;
       thisRobot.upperMotorPower=0;
       thisRobot.flywheelMotorPower=0;
       if(thisRobot.joystick.getRawButtonReleased(2))
+      {
+        intakeState=1;
+      }
+      if(thisRobot.joystick.getRawButtonPressed(4))
       {
         intakeState=1;
       }
