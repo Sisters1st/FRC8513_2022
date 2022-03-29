@@ -77,9 +77,9 @@ public class Robot extends TimedRobot {
   public double autoStartTime = 0;
   public double autoWaitTime = 0;
   // turn PID variables
-  double kP_turn = .06;
-  double kI_turn = 0.0001;
-  double kD_turn = 0.004;
+  double kP_turn = .03;
+  double kI_turn = 0.008;
+  double kD_turn = 0.005;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
   // straight PID variables
   double kP_straight = 1;
@@ -87,9 +87,9 @@ public class Robot extends TimedRobot {
   double kD_straight = 0;
   public PIDController straightPID = new PIDController(kP_straight, kI_straight, kD_straight);
   // distance PID variables
-  double kP_distance = 1;
+  double kP_distance = 0.5;
   double kI_distance = 0;
-  double kD_distance = .001;
+  double kD_distance = 0;
   public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
   // sensors
   public AHRS ahrs;
@@ -132,6 +132,7 @@ public class Robot extends TimedRobot {
     leftEncoder = m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
     rightEncoder = m_rightMotor1.getEncoder(Type.kQuadrature, 8192);
     rightEncoder.setInverted(true);
+    
     try {
       /* Communicate w/navX-MXP via the MXP SPI Bus. */
       /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */

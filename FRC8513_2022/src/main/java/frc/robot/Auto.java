@@ -104,7 +104,7 @@ public class Auto {
             case 2: // drive straight to a distance with PID
                 double distanceControllerOutput = thisRobot.distancePID.calculate(
                         thisRobot.currentPosition, thisRobot.autoGoalDistance);
-                goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.65, .65);
+                goalMotorSpeed = MathUtil.clamp(distanceControllerOutput, -.7, .7);
                 controllerOutput = thisRobot.straightPID
                         .calculate(thisRobot.leftEncoderPosition - thisRobot.rightEncoderPosition, 0);
                 motorDelta = MathUtil.clamp(controllerOutput, -.2, .2);
@@ -235,26 +235,26 @@ public class Auto {
             case 1: // drive forward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = 3;
+                thisRobot.autoGoalDistance = 2.9;
                 thisRobot.autoStep++;
                 break;
             case 2: // waiting
                 break;
-            case 3: // turn 180 degrees
+            case 3: // drive backward
+                thisRobot.autoAction = 2;
+                resetSensors();
+                thisRobot.autoGoalDistance = -3;
+                thisRobot.autoStep++;
+                break;
+            case 4:// waiting
+                break;
+            case 5: // turn 180 degrees
                 thisRobot.autoAction = 1;
                 resetSensors();
                 thisRobot.autoGoalAngle = 180;
                 thisRobot.autoStep++;
                 break;
-            case 4:// waiting
-                break;
-            case 5: // drive forward
-                thisRobot.autoAction = 2;
-                resetSensors();
-                thisRobot.autoGoalDistance = 3;
-                thisRobot.autoStep++;
-                break;
-            case 6: // waiting
+            case 6:// waiting
                 break;
             case 7:// turn on shooter
                 thisRobot.autoAction = 0;
@@ -299,7 +299,6 @@ public class Auto {
                 break;
             case 2: // waiting
                 break;
-
             case 3: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
@@ -309,10 +308,10 @@ public class Auto {
             case 4:// waiting
                 SmartDashboard.putNumber("4", 4);
                 break;
-            case 5: // turn 180
+            case 5: // turn 170
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = 180;
+                thisRobot.autoGoalAngle = 178;
                 thisRobot.autoStep++;
                 break;
             case 6: // waiting
@@ -340,7 +339,7 @@ public class Auto {
 
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = -90;
+                thisRobot.autoGoalAngle = -93;
                 thisRobot.autoStep++;
                 break;
             case 11: // waiting
@@ -511,26 +510,26 @@ public void IntakeStraightTurnStraightTurnShoot() { // Auto 9
             break;
         case 2: // waiting
             break;
-        case 3: // turn 180 degrees
+        case 3: // turn 160 degrees
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalAngle = -170;
+            thisRobot.autoGoalAngle = -160;
             thisRobot.autoStep++;
             break;
         case 4:// waiting
-            break;
+            break;  
         case 5: // drive forward
             thisRobot.autoAction = 2;
             resetSensors();
-            thisRobot.autoGoalDistance = 3;
+            thisRobot.autoGoalDistance = 3.5;
             thisRobot.autoStep++;
             break;
         case 6: // waiting
             break;
-        case 7:
+        case 7: ///turn
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalAngle = -30;
+            thisRobot.autoGoalAngle = -60;
             thisRobot.autoStep++;
             break;
         case 8://waiting
