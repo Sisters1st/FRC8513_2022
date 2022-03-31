@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   public double autoWaitTime = 0;
   // turn PID variables
   double kP_turn = .03;
-  double kI_turn = 0.008;
+  double kI_turn = 0.07;
   double kD_turn = 0.005;
   public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
   // straight PID variables

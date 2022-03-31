@@ -179,7 +179,7 @@ public class Auto {
             case 0: // drive backward
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = 180;
+                thisRobot.autoGoalAngle = 90;
                 thisRobot.autoStep++;
                 break;
             case 1:
@@ -331,7 +331,7 @@ public class Auto {
                  * System.out.println("current time" + System.currentTimeMillis()%10000);
                  * System.out.println("start time" + thisRobot.autoStartTime%10000);
                  */
-                if (System.currentTimeMillis() - thisRobot.autoStartTime > 2000) {
+                if (System.currentTimeMillis() - thisRobot.autoStartTime > 1000) {
                     thisRobot.autoStep++;
                 }
                 break;
@@ -339,7 +339,7 @@ public class Auto {
 
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = -93;
+                thisRobot.autoGoalAngle = -89;
                 thisRobot.autoStep++;
                 break;
             case 11: // waiting
@@ -359,7 +359,7 @@ public class Auto {
             case 15: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = -4;
+                thisRobot.autoGoalDistance = -4.4;
                 thisRobot.autoStep++;
                 break;
             case 16:// waiting
@@ -470,7 +470,7 @@ public void scoreFirstGrabTwoScore() { // Auto 8
         case 13: //drive forward
             thisRobot.autoAction = 2;
             resetSensors();
-            thisRobot.autoGoalDistance = 3.8;
+            thisRobot.autoGoalDistance = 3.5;
             thisRobot.autoStep++;
             break;
         case 14://waiting
