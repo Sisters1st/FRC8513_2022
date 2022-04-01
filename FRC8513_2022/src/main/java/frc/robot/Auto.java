@@ -339,7 +339,7 @@ public class Auto {
 
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = -89;
+                thisRobot.autoGoalAngle = -93;
                 thisRobot.autoStep++;
                 break;
             case 11: // waiting
@@ -359,7 +359,7 @@ public class Auto {
             case 15: // drive backward
                 thisRobot.autoAction = 2;
                 resetSensors();
-                thisRobot.autoGoalDistance = -4.4;
+                thisRobot.autoGoalDistance = -3.8;
                 thisRobot.autoStep++;
                 break;
             case 16:// waiting
