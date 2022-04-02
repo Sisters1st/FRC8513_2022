@@ -446,7 +446,7 @@ public void scoreFirstGrabTwoScore() { // Auto 8
         case 7://turn
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalAngle = 110;
+            thisRobot.autoGoalAngle = 111;
             thisRobot.autoStep++;
             break;
         case 8://waiting
