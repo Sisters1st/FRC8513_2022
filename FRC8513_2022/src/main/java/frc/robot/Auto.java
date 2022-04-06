@@ -179,7 +179,7 @@ public class Auto {
             case 0: // drive backward
                 thisRobot.autoAction = 1;
                 resetSensors();
-                thisRobot.autoGoalAngle = 180;
+                thisRobot.autoGoalAngle = 360;
                 thisRobot.autoStep++;
                 break;
             case 1:
@@ -462,7 +462,7 @@ public void scoreFirstGrabTwoScore() { // Auto 8
         case 11: // turn
             thisRobot.autoAction = 1;
             resetSensors();
-            thisRobot.autoGoalAngle = 127;
+            thisRobot.autoGoalAngle = 130;
             thisRobot.autoStep++;
             break;
         case 12: //waiting
