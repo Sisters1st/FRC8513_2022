@@ -308,7 +308,7 @@ public class Auto {
             case 4:// waiting
                 SmartDashboard.putNumber("4", 4);
                 break;
-            case 5: // turn 170
+            case 5: // turn 180
                 thisRobot.autoAction = 1;
                 resetSensors();
                 thisRobot.autoGoalAngle = 180;

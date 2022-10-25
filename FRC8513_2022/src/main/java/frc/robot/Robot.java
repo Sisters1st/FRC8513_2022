@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
   public final Timer m_timer = new Timer();
   public double Auto = 0;
   public double autoStartingAngle;
-  public double currentAngle;
+  public double currentAngle; 
   public double leftEncoderPosition = 0;
   public double rightEncoderPosition = 0;
   public double autoGoalAngle = 0;
@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
   public double autoStartTime = 0;
   public double autoWaitTime = 0;
   // turn PID variables
+  //PID STANDS FOR PRETTY INTELLIGENTLY DUMB
   double kP_turn = .1;
   double kI_turn = 0;
   double kD_turn = 0.01;
@@ -87,7 +88,7 @@ public class Robot extends TimedRobot {
   double kD_straight = 0;
   public PIDController straightPID = new PIDController(kP_straight, kI_straight, kD_straight);
   // distance PID variables
-  double kP_distance = 0.5;
+  double kP_distance = 0.7;
   double kI_distance = 0;
   double kD_distance = 0;
   public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
