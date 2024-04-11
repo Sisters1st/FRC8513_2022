@@ -5,22 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogInput;
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder.Type;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +23,6 @@ import com.revrobotics.SparkMaxRelativeEncoder.Type;
 public class Robot extends TimedRobot {
   public DifferentialDrive m_myRobot;
   public Joystick joystick;
-  public Joystick joystickBlue;
   // initializing motors
   public static final int leftMotorID1 = 4;
   public static final int leftMotorID2 = 5;
@@ -53,63 +41,9 @@ public class Robot extends TimedRobot {
   public CANSparkMax m_upperIntakeMotor;
   public CANSparkMax m_flywheelMotor;
   public CANSparkMax m_climberMotor;
-  // motor controller groups
-  public MotorControllerGroup m_left;
-  public MotorControllerGroup m_right;
   // variables used in the Auto class
   public final Timer m_timer = new Timer();
-  public double Auto = 0;
-  public double autoStartingAngle;
-  public double currentAngle; 
-  public double leftEncoderPosition = 0;
-  public double rightEncoderPosition = 0;
-  public double autoGoalAngle = 0;
-  public double autoAction = 0;
-  public double autoStep = 0;
-  public int autoDashboard = 0;
-  public double autoAngleTHold = 4.06;
-  public double tHoldCounter;
-  public double tHoldCounterTHold = 20;
-  public boolean autoActionIsDone = false;
-  public double autoGoalDistance;
-  public double autoDistanceTHold = .2;
-  public double autoGoalSpeed;
-  public double autoStartTime = 0;
-  public double autoWaitTime = 0;
   // turn PID variables
-  //PID STANDS FOR PRETTY INTELLIGENTLY DUMB
-  double kP_turn = .1;
-  double kI_turn = 0;
-  double kD_turn = 0.01;
-  public PIDController turnPID = new PIDController(kP_turn, kI_turn, kD_turn);
-  // straight PID variables
-  double kP_straight = 1;
-  double kI_straight = 0.1;
-  double kD_straight = 0;
-  public PIDController straightPID = new PIDController(kP_straight, kI_straight, kD_straight);
-  // distance PID variables
-  double kP_distance = 0.7;
-  double kI_distance = 0;
-  double kD_distance = 0;
-  public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
-  // sensors
-  public AHRS ahrs;
-  public RelativeEncoder leftEncoder;
-  public RelativeEncoder rightEncoder;
-  public double currentPosition;
-  // intake state machine
-  public double lowerMotorPower;
-  public double upperMotorPower;
-  public double flywheelMotorPower;
-  // instantiating the classes
-  public frc.robot.Auto autoController = new frc.robot.Auto(this);
-  public frc.robot.Teleop teleopController = new frc.robot.Teleop(this);
-  public frc.robot.IntakeStateMachine intakeStateController = new frc.robot.IntakeStateMachine(this);
-
-  public boolean getTriggerPressed() {
-    return autoActionIsDone;
-
-  }
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -129,66 +63,28 @@ public class Robot extends TimedRobot {
     m_upperIntakeMotor = new CANSparkMax(upperIntakeID, MotorType.kBrushed);
     m_flywheelMotor = new CANSparkMax(flywheelMotorID, MotorType.kBrushed);
     m_climberMotor = new CANSparkMax(climberMotorID, MotorType.kBrushed);
-    CameraServer.startAutomaticCapture();
-    leftEncoder = m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
-    rightEncoder = m_rightMotor1.getEncoder(Type.kQuadrature, 8192);
-    rightEncoder.setInverted(true);
     
-    try {
-      /* Communicate w/navX-MXP via the MXP SPI Bus. */
-      /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
-      /*
-       * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
-       * details.
-       */
-      ahrs = new AHRS(SPI.Port.kMXP);
-    } catch (RuntimeException ex) {
-    }
-    m_left = new MotorControllerGroup(m_leftMotor1, m_leftMotor2);
-    m_right = new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
-    m_myRobot = new DifferentialDrive(m_left, m_right);
+    m_rightMotor1.follow(m_rightMotor2);
+    m_leftMotor1.follow(m_leftMotor2);
+    
+    
+    m_myRobot = new DifferentialDrive(m_leftMotor2, m_rightMotor2);
     joystick = new Joystick(0);
-    joystickBlue = new Joystick(1);
-    m_right.setInverted(true);
   }
 
   @Override
   public void robotPeriodic() {
-    // Smart Dashboard variables
-    // pdp, motor power, motor current, angle indicator, clean up dashboard
-    currentAngle = ahrs.getAngle();
-    leftEncoderPosition = leftEncoder.getPosition();
-    rightEncoderPosition = rightEncoder.getPosition();
-    //currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
-    currentPosition = rightEncoderPosition;
-    turnPID.setIntegratorRange(-.3, .3); //clamp more
-    // putting variables on the Smart Dashboard
-    SmartDashboard.putNumber("current angle", currentAngle); // put the value of the current angle on the Smart
-                                                             // Dashboard
-    SmartDashboard.putNumber("leftEncoder", leftEncoderPosition); // put the value of the left sensor on the Smart
-                                                                  // Dashboard
-    SmartDashboard.putNumber("rightEncoder", rightEncoderPosition); // put the value of the right sensor on the Smart
-                                                                    // Dashboard
-    SmartDashboard.putNumber("autoGoalAngle", autoGoalAngle); // put the value of the auto goal angle on the Smart
-                                                              // Dashboard
-    SmartDashboard.putNumber("autoDashboard", autoDashboard); // put the value of the autoDashboard on the Smart
-                                                              // Dashboard
-    SmartDashboard.putNumber("autoTHoldCounter", tHoldCounter);
-    SmartDashboard.putNumber("Left Motor Power", m_leftMotor1.get());
-    SmartDashboard.putNumber("Right Motor Power", m_rightMotor1.get());
  
   }
 
   /** This function is run once at the beginning of each autonomous mode. */
   @Override
   public void autonomousInit() {
-    autoController.autoInit();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    autoController.autoPeriodic();
   }
 
   /**
@@ -196,13 +92,32 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-    teleopController.teleInit();
   }
 
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    teleopController.telePeriodic();
+    m_myRobot.arcadeDrive(0.6*joystick.getRawAxis(1),0.6* joystick.getRawAxis(2));
+    boolean stop = true;
+    if(joystick.getRawButton(5)){
+      m_lowerIntakeMotor.set(0.6);
+      m_upperIntakeMotor.set(0.6);
+      m_flywheelMotor.set(0);
+      stop = false;
+    }
+
+    if(joystick.getRawButton(6)){
+      m_lowerIntakeMotor.set(0.6);
+      m_upperIntakeMotor.set(0.8);
+      m_flywheelMotor.set(-1);
+      stop = false;
+    } 
+    if(stop){
+              m_lowerIntakeMotor.set(0);
+      m_upperIntakeMotor.set(0);
+      m_flywheelMotor.set(0);
+    }
+  
   }
 
   /** This function is called once each time the robot enters test mode. */
