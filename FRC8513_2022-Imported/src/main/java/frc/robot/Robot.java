@@ -5,22 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogInput;
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder.Type;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -53,9 +45,6 @@ public class Robot extends TimedRobot {
   public CANSparkMax m_upperIntakeMotor;
   public CANSparkMax m_flywheelMotor;
   public CANSparkMax m_climberMotor;
-  // motor controller groups
-  public MotorControllerGroup m_left;
-  public MotorControllerGroup m_right;
   // variables used in the Auto class
   public final Timer m_timer = new Timer();
   public double Auto = 0;
@@ -93,7 +82,6 @@ public class Robot extends TimedRobot {
   double kD_distance = 0;
   public PIDController distancePID = new PIDController(kP_distance, kI_distance, kD_distance);
   // sensors
-  public AHRS ahrs;
   public RelativeEncoder leftEncoder;
   public RelativeEncoder rightEncoder;
   public double currentPosition;
@@ -129,36 +117,22 @@ public class Robot extends TimedRobot {
     m_upperIntakeMotor = new CANSparkMax(upperIntakeID, MotorType.kBrushed);
     m_flywheelMotor = new CANSparkMax(flywheelMotorID, MotorType.kBrushed);
     m_climberMotor = new CANSparkMax(climberMotorID, MotorType.kBrushed);
-    CameraServer.startAutomaticCapture();
-    leftEncoder = m_leftMotor1.getEncoder(Type.kQuadrature, 8192);
-    rightEncoder = m_rightMotor1.getEncoder(Type.kQuadrature, 8192);
-    rightEncoder.setInverted(true);
+
     
-    try {
-      /* Communicate w/navX-MXP via the MXP SPI Bus. */
-      /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB */
-      /*
-       * See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for
-       * details.
-       */
-      ahrs = new AHRS(SPI.Port.kMXP);
-    } catch (RuntimeException ex) {
-    }
-    m_left = new MotorControllerGroup(m_leftMotor1, m_leftMotor2);
-    m_right = new MotorControllerGroup(m_rightMotor1, m_rightMotor2);
-    m_myRobot = new DifferentialDrive(m_left, m_right);
+    m_leftMotor1.follow(m_leftMotor2);
+    m_rightMotor1.follow(m_rightMotor2);
+    
+    m_myRobot = new DifferentialDrive(m_rightMotor2, m_leftMotor2);
     joystick = new Joystick(0);
     joystickBlue = new Joystick(1);
-    m_right.setInverted(true);
+    
   }
 
   @Override
   public void robotPeriodic() {
     // Smart Dashboard variables
     // pdp, motor power, motor current, angle indicator, clean up dashboard
-    currentAngle = ahrs.getAngle();
-    leftEncoderPosition = leftEncoder.getPosition();
-    rightEncoderPosition = rightEncoder.getPosition();
+
     //currentPosition = (leftEncoderPosition + rightEncoderPosition) / 2;
     currentPosition = rightEncoderPosition;
     turnPID.setIntegratorRange(-.3, .3); //clamp more
@@ -202,7 +176,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    teleopController.telePeriodic();
+      m_leftMotor1.set(0.2);
   }
 
   /** This function is called once each time the robot enters test mode. */

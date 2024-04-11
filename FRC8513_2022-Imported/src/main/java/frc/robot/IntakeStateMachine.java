@@ -2,12 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.*;
-import com.revrobotics.Rev2mDistanceSensor.Port;
 
 public class IntakeStateMachine {
 
-  private Rev2mDistanceSensor upperIntakeSensor;
-  private Rev2mDistanceSensor lowerIntakeSensor;
   public int intakeState;
   double upperSensorDistance;
   double lowerSensorDistance;
@@ -21,10 +18,6 @@ public class IntakeStateMachine {
   }
 
   public void intakeInit() {
-    upperIntakeSensor = new Rev2mDistanceSensor(Port.kOnboard);
-    lowerIntakeSensor = new Rev2mDistanceSensor(Port.kMXP);
-    upperIntakeSensor.setAutomaticMode(true);
-    lowerIntakeSensor.setAutomaticMode(true);
   }
 
   public void setState(int wantedState) {
@@ -41,8 +34,6 @@ public class IntakeStateMachine {
       upperSensorDistance=-1;
       lowerSensorDistance=-1;
     }*/
-    upperSensorDistance=upperIntakeSensor.getRange();
-    lowerSensorDistance=lowerIntakeSensor.getRange();
     SmartDashboard.putNumber("upperIntakeSensor", upperSensorDistance);
     SmartDashboard.putNumber("lowerIntakeSensor", lowerSensorDistance);
     switch(intakeState){

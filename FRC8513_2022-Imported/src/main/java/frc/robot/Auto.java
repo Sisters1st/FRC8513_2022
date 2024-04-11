@@ -132,7 +132,6 @@ public class Auto {
     public void resetSensors() {
         thisRobot.leftEncoder.setPosition(0);
         thisRobot.rightEncoder.setPosition(0);
-        thisRobot.ahrs.reset();
         thisRobot.turnPID.reset();
         thisRobot.straightPID.reset();
         thisRobot.distancePID.reset();
